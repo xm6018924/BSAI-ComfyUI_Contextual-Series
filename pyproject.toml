@@ -1,0 +1,21 @@
+[project]
+name = "bsai-comfyui-contextual-series"
+version = "1.0.0"
+description = "Extract reference frames from previously generated video to maintain visual consistency across sequential video generations. Designed for MiniMax H3 Omni Reference mode."
+authors = [{ name = "BSAI", email = "xm6018924@users.noreply.github.com" }]
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch",
+    "numpy",
+    "Pillow",
+]
+
+[project.urls]
+Repository = "https://github.com/xm6018924/BSAI-ComfyUI_Contextual-Series"
+
+[tool.comfy]
+PublisherId = "bsai"
+DisplayName = "BSAI-ComfyUI_Contextual Series"
+Icon = "https://raw.githubusercontent.com/xm6018924/BSAI-ComfyUI_Contextual-Series/main/icon.png"
