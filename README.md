@@ -61,6 +61,26 @@ When generating a series of video clips (e.g. a multi-scene short drama), each c
 
 ---
 
+## Example Workflow | 示例工作流
+
+A complete standard workflow is included in `example_workflows/contextual_series_demo.json`. Load it in ComfyUI via **Load** button to see a full two-stage demo:
+> 完整的标准工作流示例位于 `example_workflows/contextual_series_demo.json`。在 ComfyUI 中通过 **Load** 按钮加载即可查看完整的两阶段演示：
+
+```
+Stage 1 (T2V)                    Contextual Series              Stage 2 (Ref2V)
+┌─────────────────────┐          ┌──────────────────┐          ┌─────────────────────┐
+│ MiniMaxH3ImageToVideo│ → IMAGE →│ BSAI_Contextual  │ → IMAGE →│ MiniMaxH3Reference  │
+│ (Text-to-Video)      │          │ Series Extract    │          │ ToVideo (Ref2V)     │
+│ ↓                    │          │ (last 15 frames   │          │ ↓                   │
+│ VAEDecode → SaveVideo│          │  → 9 ref images)  │          │ VAEDecode → SaveVideo│
+└─────────────────────┘          └──────────────────┘          └─────────────────────┘
+```
+
+- **31 nodes, 46 links** — includes model loaders, Turbo LoRA (4-step), resolution selector, two full generation pipelines, and the Contextual Series extraction node
+- **31 个节点，46 条连线** — 包含模型加载器、Turbo LoRA（4步）、分辨率选择器、两条完整生成管线和 Contextual Series 提取节点
+
+---
+
 ## Installation | 安装
 
 ### Method 1: ComfyUI-Manager (recommended) | 方式一：ComfyUI-Manager（推荐）
