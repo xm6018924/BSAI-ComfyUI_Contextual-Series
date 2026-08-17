@@ -79,6 +79,48 @@ Stage 1 (T2V)                    Contextual Series              Stage 2 (Ref2V)
 - **31 nodes, 46 links** — includes model loaders, Turbo LoRA (4-step), resolution selector, two full generation pipelines, and the Contextual Series extraction node
 - **31 个节点，46 条连线** — 包含模型加载器、Turbo LoRA（4步）、分辨率选择器、两条完整生成管线和 Contextual Series 提取节点
 
+### Auto-Expand Story Workflow (5-Stage) | 自动扩展剧情工作流（5段循环）
+
+An advanced 5-stage auto-expanding workflow is included in `example_workflows/contextual_series_auto_expand.json`. It generates 5 consecutive video clips from a single story input, with each segment's prompt optimized by **BSAI MiniMAX H3 Prompt** node and visual consistency maintained by **BSAI-ComfyUI_Contextual Series**:
+> 高级5段自动扩展工作流位于 `example_workflows/contextual_series_auto_expand.json`。它从单个故事输入生成5段连续视频片段，每段提示词由 **BSAI MiniMAX H3 Prompt** 节点优化，视觉一致性由 **BSAI-ComfyUI_Contextual Series** 保持：
+
+```
+首段提示词                    续写提示词2                   续写提示词3                   续写提示词4                   续写提示词5
+    │                            │                            │                            │                            │
+    ▼                            ▼                            ▼                            ▼                            ▼
+┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐  ┌──────────┐
+│ Stage 1  │→│ Stage 2  │→│ Stage 3  │→│ Stage 4  │→│ Stage 5  │
+│   T2V    │  │  Ref2V   │  │  Ref2V   │  │  Ref2V   │  │  Ref2V   │
+│ (8s)     │  │ (10s)    │  │ (10s)    │  │ (10s)    │  │ (10s)    │
+└────┬─────┘  └────┬─────┘  └────┬─────┘  └────┬─────┘  └──────────┘
+     │ Extract      │ Extract      │ Extract      │ Extract
+     │ (9 imgs)     │ (9 imgs)     │ (9 imgs)     │ (9 imgs)
+     └──────────────┴──────────────┴──────────────┘
+                    Reference frames chain
+```
+
+- **90 nodes, 148 links** — 1 T2V stage + 4 Ref2V stages, each with BSAI MiniMAX H3 Prompt optimization and Contextual Series extraction
+- **90 个节点，148 条连线** — 1个T2V阶段 + 4个Ref2V阶段，每段都有 BSAI MiniMAX H3 Prompt 优化和 Contextual Series 提取
+
+**How it works | 工作原理:**
+
+1. User inputs a complete story, split into **first segment prompt** + **continuation prompts** (each ≤15s)
+   — 用户输入完整故事，拆分为**首段提示词** + **续写提示词**（每段≤15秒）
+2. Each segment goes through **BSAI MiniMAX H3 Prompt** for professional prompt optimization
+   — 每段通过 **BSAI MiniMAX H3 Prompt** 优化为专业 MiniMax H3 提示词
+3. Stage 1 generates clip 1 via **T2V**, then **Contextual Series Extract** extracts 9 reference frames
+   — Stage 1 通过 **T2V** 生成片段1，然后提取9张参考帧
+4. Stages 2-5 use **Ref2V** with reference frames from the previous stage to maintain visual consistency
+   — Stage 2-5 使用前一阶段的参考帧通过 **Ref2V** 生成，保持视觉一致性
+
+**To customize | 自定义:**
+- Edit the TextBox/Text Multiline nodes to input your own story segments
+  — 编辑 TextBox/Text Multiline 节点输入自定义故事片段
+- Adjust Duration nodes (default: 8s for Stage 1, 10s for Stages 2-5)
+  — 调整 Duration 节点（默认：Stage 1 为 8秒，Stage 2-5 为 10秒）
+- To add more stages: duplicate a Stage 2-5 block and chain the extract output
+  — 要增加更多段：复制 Stage 2-5 模块并链接提取输出
+
 ---
 
 ## Installation | 安装
