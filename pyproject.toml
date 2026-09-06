@@ -1,7 +1,7 @@
 [project]
 name = "bsai-comfyui-contextual-series"
-version = "1.0.0"
-description = "Extract reference frames from previously generated video to maintain visual consistency across sequential video generations. Designed for MiniMax H3 Omni Reference mode."
+version = "2.0.0"
+description = "Asset library, clip management, subtitle rendering, and media combining for MiniMax H3 workflows. Includes storyboard-style clip sequencing, 旁白/对白 subtitles with C:\\Windows\\Fonts support, and video/audio concatenation."
 authors = [{ name = "BSAI", email = "xm6018924@users.noreply.github.com" }]
 license = "MIT"
 readme = "README.md"
@@ -12,6 +12,10 @@ dependencies = [
     "Pillow",
 ]
 
+[project.optional-dependencies]
+video = ["opencv-python"]
+audio = ["torchaudio"]
+
 [project.urls]
 Repository = "https://github.com/xm6018924/BSAI-ComfyUI_Contextual-Series"
 
@@ -19,3 +23,4 @@ Repository = "https://github.com/xm6018924/BSAI-ComfyUI_Contextual-Series"
 PublisherId = "bsai"
 DisplayName = "BSAI-ComfyUI_Contextual Series"
 Icon = "https://raw.githubusercontent.com/xm6018924/BSAI-ComfyUI_Contextual-Series/main/icon.png"
+web = "./web"

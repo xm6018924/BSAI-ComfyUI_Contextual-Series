@@ -1,8 +1,8 @@
 {
   "id": "bsai-contextual-series-auto-expand",
   "revision": 0,
-  "last_node_id": 189,
-  "last_link_id": 447,
+  "last_node_id": 194,
+  "last_link_id": 452,
   "nodes": [
     {
       "id": 100,
@@ -807,9 +807,9 @@
         false,
         "",
         "Official SKILL (官方SKILL模式)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "Magical Realism (魔幻现实主义)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
         4096,
         0.7,
@@ -872,13 +872,13 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "a",
+          "name": "values.a",
           "type": "FLOAT,INT,BOOLEAN",
           "link": 305,
           "label": "a"
         },
         {
-          "name": "b",
+          "name": "values.b",
           "type": "FLOAT,INT,BOOLEAN",
           "link": null,
           "shape": 7,
@@ -952,7 +952,7 @@
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 304,
+          "link": 448,
           "widget": {
             "name": "prompt"
           }
@@ -1702,9 +1702,9 @@
         false,
         "",
         "Official SKILL (官方SKILL模式)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "Magical Realism (魔幻现实主义)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
         4096,
         0.7,
@@ -1767,13 +1767,13 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "a",
+          "name": "values.a",
           "type": "FLOAT,INT,BOOLEAN",
           "link": 334,
           "label": "a"
         },
         {
-          "name": "b",
+          "name": "values.b",
           "type": "FLOAT,INT,BOOLEAN",
           "link": null,
           "shape": 7,
@@ -1875,7 +1875,7 @@
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 333,
+          "link": 449,
           "widget": {
             "name": "prompt"
           }
@@ -2237,14 +2237,14 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
+          "name": "任意数据",
           "type": "IMAGE",
           "link": 354
         }
       ],
       "outputs": [
         {
-          "name": "image",
+          "name": "输出",
           "type": "IMAGE",
           "links": [
             355
@@ -2727,9 +2727,9 @@
         false,
         "",
         "Official SKILL (官方SKILL模式)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "Magical Realism (魔幻现实主义)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
         4096,
         0.7,
@@ -2792,13 +2792,13 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "a",
+          "name": "values.a",
           "type": "FLOAT,INT,BOOLEAN",
           "link": 364,
           "label": "a"
         },
         {
-          "name": "b",
+          "name": "values.b",
           "type": "FLOAT,INT,BOOLEAN",
           "link": null,
           "shape": 7,
@@ -2900,7 +2900,7 @@
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 363,
+          "link": 450,
           "widget": {
             "name": "prompt"
           }
@@ -3262,14 +3262,14 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
+          "name": "任意数据",
           "type": "IMAGE",
           "link": 384
         }
       ],
       "outputs": [
         {
-          "name": "image",
+          "name": "输出",
           "type": "IMAGE",
           "links": [
             385
@@ -3752,9 +3752,9 @@
         false,
         "",
         "Official SKILL (官方SKILL模式)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "Magical Realism (魔幻现实主义)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
         4096,
         0.7,
@@ -3817,13 +3817,13 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "a",
+          "name": "values.a",
           "type": "FLOAT,INT,BOOLEAN",
           "link": 394,
           "label": "a"
         },
         {
-          "name": "b",
+          "name": "values.b",
           "type": "FLOAT,INT,BOOLEAN",
           "link": null,
           "shape": 7,
@@ -3925,7 +3925,7 @@
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 393,
+          "link": 451,
           "widget": {
             "name": "prompt"
           }
@@ -4287,14 +4287,14 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
+          "name": "任意数据",
           "type": "IMAGE",
           "link": 414
         }
       ],
       "outputs": [
         {
-          "name": "image",
+          "name": "输出",
           "type": "IMAGE",
           "links": [
             415
@@ -4777,9 +4777,9 @@
         false,
         "",
         "Official SKILL (官方SKILL模式)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "Magical Realism (魔幻现实主义)",
-        "Official SKILL (官方SKIL模式)",
+        "Official SKILL (官方SKILL模式)",
         "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
         4096,
         0.7,
@@ -4842,13 +4842,13 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "a",
+          "name": "values.a",
           "type": "FLOAT,INT,BOOLEAN",
           "link": 424,
           "label": "a"
         },
         {
-          "name": "b",
+          "name": "values.b",
           "type": "FLOAT,INT,BOOLEAN",
           "link": null,
           "shape": 7,
@@ -4950,7 +4950,7 @@
         {
           "name": "prompt",
           "type": "STRING",
-          "link": 423,
+          "link": 452,
           "widget": {
             "name": "prompt"
           }
@@ -5311,14 +5311,14 @@
       "mode": 0,
       "inputs": [
         {
-          "name": "image",
+          "name": "任意数据",
           "type": "IMAGE",
           "link": 444
         }
       ],
       "outputs": [
         {
-          "name": "image",
+          "name": "输出",
           "type": "IMAGE",
           "links": [
             445
@@ -5473,6 +5473,186 @@
       "title": "Workflow Instructions | 工作流说明",
       "color": "#432",
       "bgcolor": "#653"
+    },
+    {
+      "id": 190,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2950,
+        -300
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 304
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            448
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 1)"
+    },
+    {
+      "id": 191,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        550
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 333
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            449
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 2)"
+    },
+    {
+      "id": 192,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        1400
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 363
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            450
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 3)"
+    },
+    {
+      "id": 193,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        2250
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 393
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            451
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 4)"
+    },
+    {
+      "id": 194,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        3100
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 423
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            452
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 5)"
     }
   ],
   "links": [
@@ -5512,8 +5692,8 @@
       304,
       114,
       0,
-      117,
-      4,
+      190,
+      0,
       "STRING"
     ],
     [
@@ -5744,8 +5924,8 @@
       333,
       128,
       0,
-      131,
-      8,
+      191,
+      0,
       "STRING"
     ],
     [
@@ -5984,8 +6164,8 @@
       363,
       144,
       0,
-      147,
-      8,
+      192,
+      0,
       "STRING"
     ],
     [
@@ -6224,8 +6404,8 @@
       393,
       160,
       0,
-      163,
-      8,
+      193,
+      0,
       "STRING"
     ],
     [
@@ -6464,8 +6644,8 @@
       423,
       176,
       0,
-      179,
-      8,
+      194,
+      0,
       "STRING"
     ],
     [
@@ -6659,6 +6839,46 @@
       188,
       0,
       "VIDEO"
+    ],
+    [
+      448,
+      190,
+      0,
+      117,
+      4,
+      "STRING"
+    ],
+    [
+      449,
+      191,
+      0,
+      131,
+      8,
+      "STRING"
+    ],
+    [
+      450,
+      192,
+      0,
+      147,
+      8,
+      "STRING"
+    ],
+    [
+      451,
+      193,
+      0,
+      163,
+      8,
+      "STRING"
+    ],
+    [
+      452,
+      194,
+      0,
+      179,
+      8,
+      "STRING"
     ]
   ],
   "groups": [

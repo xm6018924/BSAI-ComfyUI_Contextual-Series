@@ -326,6 +326,6 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "BSAI_ContextualSeriesExtract": "BSAI-ComfyUI_Contextual Series",
+    "BSAI_ContextualSeriesExtract": "BSAI Contextual Series Extract",
     "BSAI_ContextualSeriesLoad": "BSAI Contextual Series Load",
 }
