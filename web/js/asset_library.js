@@ -169,6 +169,11 @@ function setupGallery(node) {
         if (dw) {
             dw.options = dw.options || {};
             dw.options.minHeight = 250;
+            dw.options.height = "100%";
+            dw.computeSize = function (width) {
+                var h = node.size[1] - 40;
+                return [width, Math.max(250, h)];
+            };
         }
     } else {
         console.warn("[BSAI] addDOMWidget not available, gallery UI will not be visible");
