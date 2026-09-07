@@ -1,4 +1,4 @@
-/**
+﻿/**
  * BSAI Asset Library - Upload-Based Frontend Extension
  *
  * Three panels: Images (图片), Videos (视频), Audio (音频)
@@ -143,7 +143,7 @@ var SECTIONS = [
 ];
 
 app.registerExtension({
-    name: "BSAI.AssetLibrary",
+    name: "BSAI.AssetLibrary.CTX",
     async beforeRegisterNodeDef(nodeType, nodeData) {
         if (nodeData.name !== "BSAI_AssetLibraryInput") return;
         var orig = nodeType.prototype.onNodeCreated;
@@ -156,7 +156,20 @@ app.registerExtension({
 });
 
 function setupGallery(node) {
-    if (node._bsaiGal) return;
+    if (node._bsaiGal && node.__bsaiUiHasSplitter) return;
+    // Drop a stale old-version gallery widget (built without splitters)
+    // so the current splitter UI is always the one that renders.
+    var oldDw = null;
+    if (node.widgets) {
+        for (var wi = 0; wi < node.widgets.length; wi++) {
+            if (node.widgets[wi].type === "bsai_gallery") { oldDw = node.widgets[wi]; break; }
+        }
+    }
+    if (oldDw) {
+        try { if (oldDw.element) oldDw.element.remove(); } catch (_) {}
+        var idx = node.widgets.indexOf(oldDw);
+        if (idx >= 0) node.widgets.splice(idx, 1);
+    }
     node._bsaiGal = true;
 
     // Hide the three string widgets
@@ -201,50 +214,42 @@ function setupGallery(node) {
         console.warn("[BSAI] addDOMWidget not available, gallery UI will not be visible");
     }
 
+    node.__bsaiUiHasSplitter = true;
+
     // Load existing files from widget values (for workflow reload)
     setTimeout(function () { loadExistingFiles(node, container); }, 100);
 }
 
-var _bsaiSplitDrag = null;
 function setupSplitter(splitter, topSec, allSecs) {
     splitter.addEventListener("mousedown", function (e) {
         e.preventDefault();
         e.stopPropagation();
         var next = splitter.nextElementSibling;
         while (next && !next.classList.contains("bsai-sec")) next = next.nextElementSibling;
-        _bsaiSplitDrag = {
-            splitter: splitter,
-            topSec: topSec,
-            botSec: next,
-            startY: e.clientY,
-            startTopH: topSec.offsetHeight,
-            startBotH: next ? next.offsetHeight : 0,
-        };
+        var startY = e.clientY;
+        var startTopH = topSec.offsetHeight;
+        var startBotH = next ? next.offsetHeight : 0;
         splitter.classList.add("active");
         document.body.style.cursor = "row-resize";
         document.body.style.userSelect = "none";
-    });
-}
-
-if (!window._bsaiSplitGlobalBound) {
-    window._bsaiSplitGlobalBound = true;
-    document.addEventListener("mousemove", function (e) {
-        if (!_bsaiSplitDrag) return;
-        var d = _bsaiSplitDrag;
-        var dy = e.clientY - d.startY;
-        var newTop = Math.max(80, d.startTopH + dy);
-        d.topSec.style.height = newTop + "px";
-        if (d.botSec) {
-            var newBot = Math.max(80, d.startBotH - dy);
-            d.botSec.style.height = newBot + "px";
+        function onMove(ev) {
+            var dy = ev.clientY - startY;
+            var newTop = Math.max(80, startTopH + dy);
+            topSec.style.height = newTop + "px";
+            if (next) {
+                var newBot = Math.max(80, startBotH - dy);
+                next.style.height = newBot + "px";
+            }
         }
-    });
-    document.addEventListener("mouseup", function () {
-        if (!_bsaiSplitDrag) return;
-        _bsaiSplitDrag.splitter.classList.remove("active");
-        _bsaiSplitDrag = null;
-        document.body.style.cursor = "";
-        document.body.style.userSelect = "";
+        function onUp() {
+            document.removeEventListener("mousemove", onMove);
+            document.removeEventListener("mouseup", onUp);
+            splitter.classList.remove("active");
+            document.body.style.cursor = "";
+            document.body.style.userSelect = "";
+        }
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onUp);
     });
 }
 
