@@ -229,6 +229,11 @@ if _HAS_SERVER:
             ordered = manifest.get(key, [])
             if key in manifest:
                 files = [f for f in ordered if f in all_files]
+                # Fallback: manifest entry empty (e.g. stale "Remove All"
+                # or cross-plugin manifest overwrite) but files exist on
+                # disk -> rescan the directory so assets stay visible.
+                if not files and all_files:
+                    files = list(all_files)
             else:
                 files = list(all_files)
 
