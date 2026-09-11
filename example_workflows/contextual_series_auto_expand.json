@@ -1,0 +1,6970 @@
+{
+  "id": "bsai-contextual-series-auto-expand",
+  "revision": 0,
+  "last_node_id": 194,
+  "last_link_id": 452,
+  "nodes": [
+    {
+      "id": 100,
+      "type": "BSAI_H3_ModelLoader",
+      "pos": [
+        -5200,
+        -200
+      ],
+      "size": [
+        400,
+        120
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "links": [
+            303,
+            332,
+            362,
+            392,
+            422
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_ModelLoader"
+      },
+      "widgets_values": [
+        "Gemma4 (谷歌宝石4)",
+        "Gemma4-GGUF\\gemma-4-26B-A4B-it-heretic-ara.Q4_K_M.gguf",
+        "Gemma4-GGUF\\mmproj-gemma-4-26B-A4B-it-heretic-ara.BF16.gguf",
+        false,
+        16384,
+        -1
+      ],
+      "title": "BSAI H3 Model Loader (Qwen)",
+      "color": "#3f789e"
+    },
+    {
+      "id": 101,
+      "type": "UNETLoader",
+      "pos": [
+        -5200,
+        100
+      ],
+      "size": [
+        350,
+        96
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            300
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "UNETLoader"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2va_int8_convrot.safetensors",
+        "default"
+      ],
+      "title": "H3 Diffusion Model",
+      "color": "#3f789e"
+    },
+    {
+      "id": 102,
+      "type": "CLIPLoader",
+      "pos": [
+        -5200,
+        300
+      ],
+      "size": [
+        350,
+        128
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "CLIP",
+          "type": "CLIP",
+          "links": [
+            307,
+            336,
+            366,
+            396,
+            426
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CLIPLoader"
+      },
+      "widgets_values": [
+        "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+        "minimax",
+        "default"
+      ],
+      "title": "H3 Text Encoder",
+      "color": "#3f789e"
+    },
+    {
+      "id": 103,
+      "type": "VAELoader",
+      "pos": [
+        -5200,
+        500
+      ],
+      "size": [
+        350,
+        96
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            308,
+            322,
+            337,
+            351,
+            367,
+            381,
+            397,
+            411,
+            427,
+            441
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "minimax_h3_video_vae_fp16.safetensors"
+      ],
+      "title": "H3 Video VAE",
+      "color": "#3f789e"
+    },
+    {
+      "id": 104,
+      "type": "VAELoader",
+      "pos": [
+        -5200,
+        650
+      ],
+      "size": [
+        350,
+        96
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "VAE",
+          "type": "VAE",
+          "links": [
+            324,
+            338,
+            353,
+            368,
+            383,
+            398,
+            413,
+            428,
+            443
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAELoader"
+      },
+      "widgets_values": [
+        "minimax_h3_audio_vae_fp32.safetensors"
+      ],
+      "title": "H3 Audio VAE",
+      "color": "#3f789e"
+    },
+    {
+      "id": 105,
+      "type": "LoraLoaderModelOnly",
+      "pos": [
+        -4750,
+        100
+      ],
+      "size": [
+        320,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 300
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            301
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LoraLoaderModelOnly"
+      },
+      "widgets_values": [
+        "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors",
+        1
+      ],
+      "title": "Turbo LoRA (8-step)",
+      "color": "#a13f3f"
+    },
+    {
+      "id": 106,
+      "type": "PathchSageAttentionKJ",
+      "pos": [
+        -4300,
+        100
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 301
+        },
+        {
+          "name": "sage_attention",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "allow_compile",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "MODEL",
+          "type": "MODEL",
+          "links": [
+            315,
+            316,
+            346,
+            347,
+            376,
+            377,
+            406,
+            407,
+            436,
+            437
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PathchSageAttentionKJ"
+      },
+      "widgets_values": [
+        "auto",
+        false
+      ],
+      "title": "Sage Attention",
+      "color": "#a13f3f"
+    },
+    {
+      "id": 107,
+      "type": "MiniMaxH3TurboSampler",
+      "pos": [
+        -4750,
+        300
+      ],
+      "size": [
+        280,
+        26
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            349,
+            379,
+            409,
+            439
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3TurboSampler"
+      },
+      "widgets_values": [],
+      "title": "Turbo Sampler",
+      "color": "#a13f3f"
+    },
+    {
+      "id": 108,
+      "type": "KSamplerSelect",
+      "pos": [
+        -4750,
+        400
+      ],
+      "size": [
+        210,
+        58
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "sampler_name",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SAMPLER",
+          "type": "SAMPLER",
+          "links": [
+            320
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "KSamplerSelect"
+      },
+      "widgets_values": [
+        "euler"
+      ],
+      "title": "KSampler Select (Stage 1)"
+    },
+    {
+      "id": 109,
+      "type": "ResolutionSelector",
+      "pos": [
+        -4750,
+        550
+      ],
+      "size": [
+        270,
+        170
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "aspect_ratio",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "megapixels",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "multiple",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "width",
+          "type": "INT",
+          "links": [
+            309,
+            339,
+            369,
+            399,
+            429
+          ]
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "links": [
+            310,
+            340,
+            370,
+            400,
+            430
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ResolutionSelector"
+      },
+      "widgets_values": [
+        "16:9 (Widescreen)",
+        1,
+        32
+      ],
+      "title": "Resolution (shared)",
+      "color": "#3f789e"
+    },
+    {
+      "id": 110,
+      "type": "BasicScheduler",
+      "pos": [
+        -3950,
+        700
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 316
+        },
+        {
+          "name": "scheduler",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "denoise",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            317
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        8,
+        1
+      ],
+      "title": "Scheduler (Stage 1 sigma)"
+    },
+    {
+      "id": 111,
+      "type": "ExtendIntermediateSigmas",
+      "pos": [
+        -3650,
+        700
+      ],
+      "size": [
+        270,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 317
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "start_at_sigma",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "end_at_sigma",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "spacing",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            318
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ExtendIntermediateSigmas"
+      },
+      "widgets_values": [
+        1,
+        0.75,
+        0.7,
+        "cosine"
+      ],
+      "title": "Extend Sigmas (Stage 1)"
+    },
+    {
+      "id": 112,
+      "type": "H3SigmaRefiner",
+      "pos": [
+        -3350,
+        700
+      ],
+      "size": [
+        270,
+        130
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 318
+        },
+        {
+          "name": "extra_steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "start_at_sigma",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "end_at_sigma",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "spacing",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "links": [
+            319
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "H3SigmaRefiner"
+      },
+      "widgets_values": [
+        1,
+        0.7,
+        0,
+        "cosine"
+      ],
+      "title": "H3 Sigma Refiner (Stage 1)"
+    },
+    {
+      "id": 113,
+      "type": "LayerUtility: TextBox",
+      "pos": [
+        -4000,
+        -300
+      ],
+      "size": [
+        500,
+        400
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "text",
+          "type": "STRING",
+          "links": [
+            302,
+            329,
+            359,
+            389,
+            419
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "LayerUtility: TextBox"
+      },
+      "widgets_values": [
+        "【0-4秒：振翅起风，脱离引力】\n镜头从极近距离贴着他脚下的积水开始，紧接着猛然向上摇拍（Tilt Up），掠过他苍白的膝盖与垂落的红蓝腰带。他站在鸟居石阶的最顶端，背后那对黑色的破败双翼猛力向下压动了一次，巨大的气流瞬间将周围坠落的雨帘全部震碎成水雾。\n他双脚慢慢离地，整个人如同失去了重力，平稳地向后上方升空。镜头紧贴着他升空的轨迹，同步完成一次极缓的后拉仰拍，捕捉他背后那双翅膀完全张开的姿态。\n\n【4-8秒：悬停俯瞰，魔影初现】\n他悬停在半空，脚下的雨云正缓慢翻涌。大雨依旧在下，但他周身仿佛有一层无形的气罩，将坠落的雨滴微微向外弹开。他侧过头，目光穿过悬浮在空中的雨丝，看向远方的山峦。\n4K高清，电影级光影，动作衔接极致流畅，魔幻现实主义氛围。"
+      ],
+      "title": "首段提示词 | First Segment Prompt",
+      "color": "#4a4"
+    },
+    {
+      "id": 114,
+      "type": "BSAI_MiniMAX H3 prompt",
+      "pos": [
+        -3400,
+        -300
+      ],
+      "size": [
+        400,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "link": 303
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_10",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_1",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_2",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_3",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 302
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt_output",
+          "type": "STRING",
+          "links": [
+            304
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_MiniMAX H3 prompt"
+      },
+      "widgets_values": [
+        "",
+        "System Recommended (系统推荐)",
+        0,
+        "Chinese (中文)",
+        false,
+        "",
+        "Official SKILL (官方SKILL模式)",
+        "Official SKILL (官方SKILL模式)",
+        "Magical Realism (魔幻现实主义)",
+        "Official SKILL (官方SKILL模式)",
+        "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
+        4096,
+        0.7,
+        0.9,
+        20,
+        1,
+        0,
+        0,
+        167970296966378,
+        "randomize"
+      ],
+      "title": "BSAI MiniMAX H3 Prompt (Stage 1)",
+      "color": "#4a4"
+    },
+    {
+      "id": 115,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -4000,
+        150
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            305
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        8
+      ],
+      "title": "Duration (Stage 1) = 8s"
+    },
+    {
+      "id": 116,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -3650,
+        150
+      ],
+      "size": [
+        360,
+        160
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 305,
+          "label": "a"
+        },
+        {
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "label": "b"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            306
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "Duration to Frames (Stage 1)"
+    },
+    {
+      "id": 117,
+      "type": "MiniMaxH3ImageToVideo",
+      "pos": [
+        -2900,
+        -300
+      ],
+      "size": [
+        430,
+        550
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 307
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 308
+        },
+        {
+          "name": "first_frame",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "last_frame",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 448,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 309,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 310,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 306,
+          "widget": {
+            "name": "length"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            311
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            312
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ImageToVideo"
+      },
+      "widgets_values": [
+        "",
+        1344,
+        768,
+        73
+      ],
+      "title": "Stage 1: T2V - Generate Clip 1",
+      "color": "#223"
+    },
+    {
+      "id": 118,
+      "type": "RandomNoise",
+      "pos": [
+        -2300,
+        -300
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise_seed",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            313
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        96861977427750,
+        "randomize"
+      ],
+      "title": "Noise (Stage 1)"
+    },
+    {
+      "id": 119,
+      "type": "BasicGuider",
+      "pos": [
+        -2300,
+        -150
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 315
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 311
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            314
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "title": "Guider (Stage 1)"
+    },
+    {
+      "id": 120,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        -1950,
+        -300
+      ],
+      "size": [
+        230,
+        326
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 313
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 314
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 320
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 319
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 312
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            321,
+            323
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "title": "Sampler (Stage 1)"
+    },
+    {
+      "id": 121,
+      "type": "VAEDecode",
+      "pos": [
+        -1600,
+        -300
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 321
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 322
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            325,
+            328
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Video (Stage 1)"
+    },
+    {
+      "id": 122,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        -1600,
+        -180
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 323
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 324
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            326
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Audio (Stage 1)"
+    },
+    {
+      "id": 123,
+      "type": "CreateVideo",
+      "pos": [
+        -1250,
+        -300
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 325
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 326,
+          "shape": 7
+        },
+        {
+          "name": "fps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            327
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        8
+      ],
+      "title": "Create Video (Stage 1)"
+    },
+    {
+      "id": 124,
+      "type": "SaveVideo",
+      "pos": [
+        -850,
+        -300
+      ],
+      "size": [
+        400,
+        126
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 327
+        },
+        {
+          "name": "filename_prefix",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        },
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "BSAI/Contextual_Series_Auto/clip1",
+        "auto",
+        "auto"
+      ],
+      "title": "Save Clip 1",
+      "color": "#223"
+    },
+    {
+      "id": 125,
+      "type": "BSAI_ContextualSeriesExtract",
+      "pos": [
+        -1600,
+        -50
+      ],
+      "size": [
+        400,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 328
+        },
+        {
+          "name": "selection_mode",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "selection_mode"
+          }
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "frame_count"
+          }
+        },
+        {
+          "name": "start_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "start_frame"
+          }
+        },
+        {
+          "name": "end_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "end_frame"
+          }
+        },
+        {
+          "name": "max_output_frames",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "max_output_frames"
+          }
+        },
+        {
+          "name": "sampling_method",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "sampling_method"
+          }
+        },
+        {
+          "name": "save_frames",
+          "type": "BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "save_frames"
+          }
+        },
+        {
+          "name": "output_subdir",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "output_subdir"
+          }
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            341
+          ]
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_ContextualSeriesExtract"
+      },
+      "widgets_values": [
+        "last_n",
+        15,
+        0,
+        0,
+        9,
+        "even",
+        false,
+        "contextual_series",
+        "frame"
+      ],
+      "title": "Contextual Series Extract (Stage 1)",
+      "color": "#4a4"
+    },
+    {
+      "id": 126,
+      "type": "Text Multiline",
+      "pos": [
+        -4000,
+        550
+      ],
+      "size": [
+        500,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            330
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "请根据首段剧情，继续扩展10秒剧情。\n从他高悬于雨云之上、破败的双翼在风中微颤的姿态开始，续写他挥动破败的双翼，迎着扑面而来的雨滴，展现一段时间凝固的特效：他破败的双翼与时间凝固的雨滴之间的关系，雨滴凝固在他眼睛前面，雨滴中各种倒影在他眼前展现。随后突然加速，从凝固的时间变成快速镜头，俯冲入林，贴地飞行。他腰部猛然向前一折，身体化为一道黑雾般的残影，径直向着前方幽暗的雨林深处俯冲而去。镜头紧咬着他的后背，以极快的速度完成了一次\"极速俯冲跟拍（Dive Track）\"。\n4K高清，电影级光影，动作衔接极致流畅，魔幻现实主义氛围。"
+      ],
+      "title": "续写提示词2 | Continuation Prompt 2",
+      "color": "#4a4"
+    },
+    {
+      "id": 127,
+      "type": "easy promptConcat",
+      "pos": [
+        -3400,
+        550
+      ],
+      "size": [
+        315,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prompt1",
+          "type": "STRING",
+          "link": 329,
+          "shape": 7
+        },
+        {
+          "name": "prompt2",
+          "type": "STRING",
+          "link": 330,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            331
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy promptConcat"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Prompt Concat (Stage 2)"
+    },
+    {
+      "id": 128,
+      "type": "BSAI_MiniMAX H3 prompt",
+      "pos": [
+        -3000,
+        550
+      ],
+      "size": [
+        400,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "link": 332
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_10",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_1",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_2",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_3",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 331
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt_output",
+          "type": "STRING",
+          "links": [
+            333
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_MiniMAX H3 prompt"
+      },
+      "widgets_values": [
+        "",
+        "System Recommended (系统推荐)",
+        0,
+        "Chinese (中文)",
+        false,
+        "",
+        "Official SKILL (官方SKILL模式)",
+        "Official SKILL (官方SKILL模式)",
+        "Magical Realism (魔幻现实主义)",
+        "Official SKILL (官方SKILL模式)",
+        "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
+        4096,
+        0.7,
+        0.9,
+        20,
+        1,
+        0,
+        0,
+        167970296966378,
+        "randomize"
+      ],
+      "title": "BSAI MiniMAX H3 Prompt (Stage 2)",
+      "color": "#4a4"
+    },
+    {
+      "id": 129,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -4000,
+        900
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            334
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        10
+      ],
+      "title": "Duration (Stage 2) = 10s"
+    },
+    {
+      "id": 130,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -3650,
+        900
+      ],
+      "size": [
+        360,
+        160
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 334,
+          "label": "a"
+        },
+        {
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "label": "b"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            335
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "Duration to Frames (Stage 2)"
+    },
+    {
+      "id": 131,
+      "type": "MiniMaxH3ReferenceToVideo",
+      "pos": [
+        -2500,
+        550
+      ],
+      "size": [
+        500,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 336
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 337
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 338
+        },
+        {
+          "name": "ref_images.ref_image_0",
+          "type": "IMAGE",
+          "link": 341,
+          "shape": 7,
+          "label": "ref_image_0"
+        },
+        {
+          "name": "ref_images.ref_image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_1"
+        },
+        {
+          "name": "ref_videos.ref_video_0",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_0"
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_audio_0"
+        },
+        {
+          "name": "ref_audios.ref_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_audio_0"
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 449,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 339,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 340,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 335,
+          "widget": {
+            "name": "length"
+          }
+        },
+        {
+          "name": "ref_images.ref_image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            342
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            343
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ReferenceToVideo"
+      },
+      "widgets_values": [
+        "",
+        896,
+        768,
+        125,
+        "match"
+      ],
+      "title": "Stage 2: Ref2V - Generate Clip 2",
+      "color": "#223"
+    },
+    {
+      "id": 132,
+      "type": "RandomNoise",
+      "pos": [
+        -1900,
+        550
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise_seed",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            344
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        258020130451807,
+        "randomize"
+      ],
+      "title": "Noise (Stage 2)"
+    },
+    {
+      "id": 133,
+      "type": "BasicScheduler",
+      "pos": [
+        -1900,
+        700
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 347
+        },
+        {
+          "name": "scheduler",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "denoise",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            348
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        6,
+        1
+      ],
+      "title": "Scheduler (Stage 2)"
+    },
+    {
+      "id": 134,
+      "type": "BasicGuider",
+      "pos": [
+        -1900,
+        870
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 346
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 342
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            345
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "title": "Guider (Stage 2)"
+    },
+    {
+      "id": 135,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        -1550,
+        550
+      ],
+      "size": [
+        230,
+        326
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 344
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 345
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 349
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 348
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 343
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            350,
+            352
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "title": "Sampler (Stage 2)"
+    },
+    {
+      "id": 136,
+      "type": "VAEDecode",
+      "pos": [
+        -1200,
+        550
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 350
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 351
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            354,
+            358
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Video (Stage 2)"
+    },
+    {
+      "id": 137,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        -1200,
+        670
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 352
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 353
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            356
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Audio (Stage 2)"
+    },
+    {
+      "id": 138,
+      "type": "ZML_MemoryCleaner",
+      "pos": [
+        -900,
+        550
+      ],
+      "size": [
+        227,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "任意数据",
+          "type": "IMAGE",
+          "link": 354
+        }
+      ],
+      "outputs": [
+        {
+          "name": "输出",
+          "type": "IMAGE",
+          "links": [
+            355
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ZML_MemoryCleaner"
+      },
+      "widgets_values": [
+        true,
+        false
+      ],
+      "title": "Memory Cleaner (Stage 2)"
+    },
+    {
+      "id": 139,
+      "type": "CreateVideo",
+      "pos": [
+        -600,
+        550
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 355
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 356,
+          "shape": 7
+        },
+        {
+          "name": "fps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            357
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        8
+      ],
+      "title": "Create Video (Stage 2)"
+    },
+    {
+      "id": 140,
+      "type": "SaveVideo",
+      "pos": [
+        -250,
+        550
+      ],
+      "size": [
+        400,
+        126
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 357
+        },
+        {
+          "name": "filename_prefix",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        },
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "BSAI/Contextual_Series_Auto/clip2",
+        "auto",
+        "auto"
+      ],
+      "title": "Save Clip 2",
+      "color": "#223"
+    },
+    {
+      "id": 141,
+      "type": "BSAI_ContextualSeriesExtract",
+      "pos": [
+        -1200,
+        800
+      ],
+      "size": [
+        400,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 358
+        },
+        {
+          "name": "selection_mode",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "selection_mode"
+          }
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "frame_count"
+          }
+        },
+        {
+          "name": "start_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "start_frame"
+          }
+        },
+        {
+          "name": "end_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "end_frame"
+          }
+        },
+        {
+          "name": "max_output_frames",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "max_output_frames"
+          }
+        },
+        {
+          "name": "sampling_method",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "sampling_method"
+          }
+        },
+        {
+          "name": "save_frames",
+          "type": "BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "save_frames"
+          }
+        },
+        {
+          "name": "output_subdir",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "output_subdir"
+          }
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            371
+          ]
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_ContextualSeriesExtract"
+      },
+      "widgets_values": [
+        "last_n",
+        15,
+        0,
+        0,
+        9,
+        "even",
+        false,
+        "contextual_series",
+        "frame"
+      ],
+      "title": "Contextual Series Extract (Stage 2)",
+      "color": "#4a4"
+    },
+    {
+      "id": 142,
+      "type": "Text Multiline",
+      "pos": [
+        -4000,
+        1400
+      ],
+      "size": [
+        500,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            360
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "请根据前段剧情，继续扩展10秒剧情。\n从贴地飞行穿过雨林的场景开始，续写他穿林破雾、急速折转的场景。前方出现几棵密集的参天古树，他没有减速，身体向左侧猛压，双翼随之微微倾斜，极其流畅地从两棵粗大的树干之间穿过。穿过之后，身体顺势在空中扭转向右，完成折角飞行。飞出密林后，前方植被逐渐消失，露出一片雨后的开阔山谷。他双翼猛然向下用力一拍，如同离弦之箭般垂直向上拉升了数十米高度。\n4K高清，电影级光影，动作衔接极致流畅，魔幻现实主义氛围。"
+      ],
+      "title": "续写提示词3 | Continuation Prompt 3",
+      "color": "#4a4"
+    },
+    {
+      "id": 143,
+      "type": "easy promptConcat",
+      "pos": [
+        -3400,
+        1400
+      ],
+      "size": [
+        315,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prompt1",
+          "type": "STRING",
+          "link": 359,
+          "shape": 7
+        },
+        {
+          "name": "prompt2",
+          "type": "STRING",
+          "link": 360,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            361
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy promptConcat"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Prompt Concat (Stage 3)"
+    },
+    {
+      "id": 144,
+      "type": "BSAI_MiniMAX H3 prompt",
+      "pos": [
+        -3000,
+        1400
+      ],
+      "size": [
+        400,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "link": 362
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_10",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_1",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_2",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_3",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 361
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt_output",
+          "type": "STRING",
+          "links": [
+            363
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_MiniMAX H3 prompt"
+      },
+      "widgets_values": [
+        "",
+        "System Recommended (系统推荐)",
+        0,
+        "Chinese (中文)",
+        false,
+        "",
+        "Official SKILL (官方SKILL模式)",
+        "Official SKILL (官方SKILL模式)",
+        "Magical Realism (魔幻现实主义)",
+        "Official SKILL (官方SKILL模式)",
+        "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
+        4096,
+        0.7,
+        0.9,
+        20,
+        1,
+        0,
+        0,
+        167970296966378,
+        "randomize"
+      ],
+      "title": "BSAI MiniMAX H3 Prompt (Stage 3)",
+      "color": "#4a4"
+    },
+    {
+      "id": 145,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -4000,
+        1750
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            364
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        10
+      ],
+      "title": "Duration (Stage 3) = 10s"
+    },
+    {
+      "id": 146,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -3650,
+        1750
+      ],
+      "size": [
+        360,
+        160
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 364,
+          "label": "a"
+        },
+        {
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "label": "b"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            365
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "Duration to Frames (Stage 3)"
+    },
+    {
+      "id": 147,
+      "type": "MiniMaxH3ReferenceToVideo",
+      "pos": [
+        -2500,
+        1400
+      ],
+      "size": [
+        500,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 366
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 367
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 368
+        },
+        {
+          "name": "ref_images.ref_image_0",
+          "type": "IMAGE",
+          "link": 371,
+          "shape": 7,
+          "label": "ref_image_0"
+        },
+        {
+          "name": "ref_images.ref_image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_1"
+        },
+        {
+          "name": "ref_videos.ref_video_0",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_0"
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_audio_0"
+        },
+        {
+          "name": "ref_audios.ref_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_audio_0"
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 450,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 369,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 370,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 365,
+          "widget": {
+            "name": "length"
+          }
+        },
+        {
+          "name": "ref_images.ref_image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            372
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            373
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ReferenceToVideo"
+      },
+      "widgets_values": [
+        "",
+        896,
+        768,
+        125,
+        "match"
+      ],
+      "title": "Stage 3: Ref2V - Generate Clip 3",
+      "color": "#223"
+    },
+    {
+      "id": 148,
+      "type": "RandomNoise",
+      "pos": [
+        -1900,
+        1400
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise_seed",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            374
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        258020130451808,
+        "randomize"
+      ],
+      "title": "Noise (Stage 3)"
+    },
+    {
+      "id": 149,
+      "type": "BasicScheduler",
+      "pos": [
+        -1900,
+        1550
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 377
+        },
+        {
+          "name": "scheduler",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "denoise",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            378
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        6,
+        1
+      ],
+      "title": "Scheduler (Stage 3)"
+    },
+    {
+      "id": 150,
+      "type": "BasicGuider",
+      "pos": [
+        -1900,
+        1720
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 376
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 372
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            375
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "title": "Guider (Stage 3)"
+    },
+    {
+      "id": 151,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        -1550,
+        1400
+      ],
+      "size": [
+        230,
+        326
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 374
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 375
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 379
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 378
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 373
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            380,
+            382
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "title": "Sampler (Stage 3)"
+    },
+    {
+      "id": 152,
+      "type": "VAEDecode",
+      "pos": [
+        -1200,
+        1400
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 380
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 381
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            384,
+            388
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Video (Stage 3)"
+    },
+    {
+      "id": 153,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        -1200,
+        1520
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 382
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 383
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            386
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Audio (Stage 3)"
+    },
+    {
+      "id": 154,
+      "type": "ZML_MemoryCleaner",
+      "pos": [
+        -900,
+        1400
+      ],
+      "size": [
+        227,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "任意数据",
+          "type": "IMAGE",
+          "link": 384
+        }
+      ],
+      "outputs": [
+        {
+          "name": "输出",
+          "type": "IMAGE",
+          "links": [
+            385
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ZML_MemoryCleaner"
+      },
+      "widgets_values": [
+        true,
+        false
+      ],
+      "title": "Memory Cleaner (Stage 3)"
+    },
+    {
+      "id": 155,
+      "type": "CreateVideo",
+      "pos": [
+        -600,
+        1400
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 385
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 386,
+          "shape": 7
+        },
+        {
+          "name": "fps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            387
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        8
+      ],
+      "title": "Create Video (Stage 3)"
+    },
+    {
+      "id": 156,
+      "type": "SaveVideo",
+      "pos": [
+        -250,
+        1400
+      ],
+      "size": [
+        400,
+        126
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 387
+        },
+        {
+          "name": "filename_prefix",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        },
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "BSAI/Contextual_Series_Auto/clip3",
+        "auto",
+        "auto"
+      ],
+      "title": "Save Clip 3",
+      "color": "#223"
+    },
+    {
+      "id": 157,
+      "type": "BSAI_ContextualSeriesExtract",
+      "pos": [
+        -1200,
+        1650
+      ],
+      "size": [
+        400,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 388
+        },
+        {
+          "name": "selection_mode",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "selection_mode"
+          }
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "frame_count"
+          }
+        },
+        {
+          "name": "start_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "start_frame"
+          }
+        },
+        {
+          "name": "end_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "end_frame"
+          }
+        },
+        {
+          "name": "max_output_frames",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "max_output_frames"
+          }
+        },
+        {
+          "name": "sampling_method",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "sampling_method"
+          }
+        },
+        {
+          "name": "save_frames",
+          "type": "BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "save_frames"
+          }
+        },
+        {
+          "name": "output_subdir",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "output_subdir"
+          }
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            401
+          ]
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_ContextualSeriesExtract"
+      },
+      "widgets_values": [
+        "last_n",
+        15,
+        0,
+        0,
+        9,
+        "even",
+        false,
+        "contextual_series",
+        "frame"
+      ],
+      "title": "Contextual Series Extract (Stage 3)",
+      "color": "#4a4"
+    },
+    {
+      "id": 158,
+      "type": "Text Multiline",
+      "pos": [
+        -4000,
+        2250
+      ],
+      "size": [
+        500,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            390
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "请根据前段剧情，继续扩展10秒剧情。\n从垂直拉升到数十米高度开始，续写他到达最高点时骤然停止动作，双翼向两侧平展，平稳地悬停在高空之中，俯视着下方翻涌的水汽与雨云。镜头紧跟他极速拉升的轨迹，猛然向上仰拍（Tilt Up），然后稳稳地落定在他悬停的姿态上。他周身的雨滴在气罩外缓缓滑落，远方的云层开始出现裂缝，透出微弱的朝霞光芒。\n4K高清，电影级光影，动作衔接极致流畅，魔幻现实主义氛围。"
+      ],
+      "title": "续写提示词4 | Continuation Prompt 4",
+      "color": "#4a4"
+    },
+    {
+      "id": 159,
+      "type": "easy promptConcat",
+      "pos": [
+        -3400,
+        2250
+      ],
+      "size": [
+        315,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prompt1",
+          "type": "STRING",
+          "link": 389,
+          "shape": 7
+        },
+        {
+          "name": "prompt2",
+          "type": "STRING",
+          "link": 390,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            391
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy promptConcat"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Prompt Concat (Stage 4)"
+    },
+    {
+      "id": 160,
+      "type": "BSAI_MiniMAX H3 prompt",
+      "pos": [
+        -3000,
+        2250
+      ],
+      "size": [
+        400,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "link": 392
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_10",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_1",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_2",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_3",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 391
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt_output",
+          "type": "STRING",
+          "links": [
+            393
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_MiniMAX H3 prompt"
+      },
+      "widgets_values": [
+        "",
+        "System Recommended (系统推荐)",
+        0,
+        "Chinese (中文)",
+        false,
+        "",
+        "Official SKILL (官方SKILL模式)",
+        "Official SKILL (官方SKILL模式)",
+        "Magical Realism (魔幻现实主义)",
+        "Official SKILL (官方SKILL模式)",
+        "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
+        4096,
+        0.7,
+        0.9,
+        20,
+        1,
+        0,
+        0,
+        167970296966378,
+        "randomize"
+      ],
+      "title": "BSAI MiniMAX H3 Prompt (Stage 4)",
+      "color": "#4a4"
+    },
+    {
+      "id": 161,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -4000,
+        2600
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            394
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        10
+      ],
+      "title": "Duration (Stage 4) = 10s"
+    },
+    {
+      "id": 162,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -3650,
+        2600
+      ],
+      "size": [
+        360,
+        160
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 394,
+          "label": "a"
+        },
+        {
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "label": "b"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            395
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "Duration to Frames (Stage 4)"
+    },
+    {
+      "id": 163,
+      "type": "MiniMaxH3ReferenceToVideo",
+      "pos": [
+        -2500,
+        2250
+      ],
+      "size": [
+        500,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 396
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 397
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 398
+        },
+        {
+          "name": "ref_images.ref_image_0",
+          "type": "IMAGE",
+          "link": 401,
+          "shape": 7,
+          "label": "ref_image_0"
+        },
+        {
+          "name": "ref_images.ref_image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_1"
+        },
+        {
+          "name": "ref_videos.ref_video_0",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_0"
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_audio_0"
+        },
+        {
+          "name": "ref_audios.ref_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_audio_0"
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 451,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 399,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 400,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 395,
+          "widget": {
+            "name": "length"
+          }
+        },
+        {
+          "name": "ref_images.ref_image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            402
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            403
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ReferenceToVideo"
+      },
+      "widgets_values": [
+        "",
+        896,
+        768,
+        125,
+        "match"
+      ],
+      "title": "Stage 4: Ref2V - Generate Clip 4",
+      "color": "#223"
+    },
+    {
+      "id": 164,
+      "type": "RandomNoise",
+      "pos": [
+        -1900,
+        2250
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise_seed",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            404
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        258020130451809,
+        "randomize"
+      ],
+      "title": "Noise (Stage 4)"
+    },
+    {
+      "id": 165,
+      "type": "BasicScheduler",
+      "pos": [
+        -1900,
+        2400
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 407
+        },
+        {
+          "name": "scheduler",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "denoise",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            408
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        6,
+        1
+      ],
+      "title": "Scheduler (Stage 4)"
+    },
+    {
+      "id": 166,
+      "type": "BasicGuider",
+      "pos": [
+        -1900,
+        2570
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 406
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 402
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            405
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "title": "Guider (Stage 4)"
+    },
+    {
+      "id": 167,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        -1550,
+        2250
+      ],
+      "size": [
+        230,
+        326
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 404
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 405
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 409
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 408
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 403
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            410,
+            412
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "title": "Sampler (Stage 4)"
+    },
+    {
+      "id": 168,
+      "type": "VAEDecode",
+      "pos": [
+        -1200,
+        2250
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 410
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 411
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            414,
+            418
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Video (Stage 4)"
+    },
+    {
+      "id": 169,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        -1200,
+        2370
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 412
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 413
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            416
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Audio (Stage 4)"
+    },
+    {
+      "id": 170,
+      "type": "ZML_MemoryCleaner",
+      "pos": [
+        -900,
+        2250
+      ],
+      "size": [
+        227,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "任意数据",
+          "type": "IMAGE",
+          "link": 414
+        }
+      ],
+      "outputs": [
+        {
+          "name": "输出",
+          "type": "IMAGE",
+          "links": [
+            415
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ZML_MemoryCleaner"
+      },
+      "widgets_values": [
+        true,
+        false
+      ],
+      "title": "Memory Cleaner (Stage 4)"
+    },
+    {
+      "id": 171,
+      "type": "CreateVideo",
+      "pos": [
+        -600,
+        2250
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 415
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 416,
+          "shape": 7
+        },
+        {
+          "name": "fps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            417
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        8
+      ],
+      "title": "Create Video (Stage 4)"
+    },
+    {
+      "id": 172,
+      "type": "SaveVideo",
+      "pos": [
+        -250,
+        2250
+      ],
+      "size": [
+        400,
+        126
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 417
+        },
+        {
+          "name": "filename_prefix",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        },
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "BSAI/Contextual_Series_Auto/clip4",
+        "auto",
+        "auto"
+      ],
+      "title": "Save Clip 4",
+      "color": "#223"
+    },
+    {
+      "id": 173,
+      "type": "BSAI_ContextualSeriesExtract",
+      "pos": [
+        -1200,
+        2500
+      ],
+      "size": [
+        400,
+        330
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 418
+        },
+        {
+          "name": "selection_mode",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "selection_mode"
+          }
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "frame_count"
+          }
+        },
+        {
+          "name": "start_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "start_frame"
+          }
+        },
+        {
+          "name": "end_frame",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "end_frame"
+          }
+        },
+        {
+          "name": "max_output_frames",
+          "type": "INT",
+          "link": null,
+          "widget": {
+            "name": "max_output_frames"
+          }
+        },
+        {
+          "name": "sampling_method",
+          "type": "COMBO",
+          "link": null,
+          "widget": {
+            "name": "sampling_method"
+          }
+        },
+        {
+          "name": "save_frames",
+          "type": "BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "save_frames"
+          }
+        },
+        {
+          "name": "output_subdir",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "output_subdir"
+          }
+        },
+        {
+          "name": "filename_prefix",
+          "type": "STRING",
+          "link": null,
+          "shape": 7,
+          "widget": {
+            "name": "filename_prefix"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "links": [
+            431
+          ]
+        },
+        {
+          "name": "frame_count",
+          "type": "INT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_ContextualSeriesExtract"
+      },
+      "widgets_values": [
+        "last_n",
+        15,
+        0,
+        0,
+        9,
+        "even",
+        false,
+        "contextual_series",
+        "frame"
+      ],
+      "title": "Contextual Series Extract (Stage 4)",
+      "color": "#4a4"
+    },
+    {
+      "id": 174,
+      "type": "Text Multiline",
+      "pos": [
+        -4000,
+        3100
+      ],
+      "size": [
+        500,
+        300
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "STRING",
+          "type": "STRING",
+          "links": [
+            420
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "Text Multiline"
+      },
+      "widgets_values": [
+        "请根据前段剧情，继续扩展10秒剧情。\n从悬停于高空俯瞰雨云、远方云层透出朝霞光芒开始，续写他收势降落的场景。他侧过头，目光穿过悬浮在空中的雨丝，看向远方。随后双翼缓缓收拢，身体开始平稳下降，穿过云层。雨霁云开，朝霞的光芒越来越亮。他落在一片金色的沙滩上，破败的双翼在晨光中微微发光，海浪轻轻拍打着岸边。画面定格在他立于沙滩上，背朝大海，面朝日出的姿态。\n4K高清，电影级光影，动作衔接极致流畅，魔幻现实主义氛围。"
+      ],
+      "title": "续写提示词5 | Continuation Prompt 5",
+      "color": "#4a4"
+    },
+    {
+      "id": 175,
+      "type": "easy promptConcat",
+      "pos": [
+        -3400,
+        3100
+      ],
+      "size": [
+        315,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "prompt1",
+          "type": "STRING",
+          "link": 419,
+          "shape": 7
+        },
+        {
+          "name": "prompt2",
+          "type": "STRING",
+          "link": 420,
+          "shape": 7
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "links": [
+            421
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "easy promptConcat"
+      },
+      "widgets_values": [
+        ""
+      ],
+      "title": "Prompt Concat (Stage 5)"
+    },
+    {
+      "id": 176,
+      "type": "BSAI_MiniMAX H3 prompt",
+      "pos": [
+        -3000,
+        3100
+      ],
+      "size": [
+        400,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "qwen_model",
+          "type": "BSAI_QWEN_MODEL",
+          "link": 422
+        },
+        {
+          "name": "image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_5",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_6",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_7",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_8",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_9",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "image_10",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_3",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "video_4",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_1",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_2",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "audio_3",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7
+        },
+        {
+          "name": "user_prompt",
+          "type": "STRING",
+          "link": 421
+        }
+      ],
+      "outputs": [
+        {
+          "name": "prompt_output",
+          "type": "STRING",
+          "links": [
+            423
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_MiniMAX H3 prompt"
+      },
+      "widgets_values": [
+        "",
+        "System Recommended (系统推荐)",
+        0,
+        "Chinese (中文)",
+        false,
+        "",
+        "Official SKILL (官方SKILL模式)",
+        "Official SKILL (官方SKILL模式)",
+        "Magical Realism (魔幻现实主义)",
+        "Official SKILL (官方SKILL模式)",
+        "John Williams (约翰·威廉姆斯 | 史诗管弦主导动机)",
+        4096,
+        0.7,
+        0.9,
+        20,
+        1,
+        0,
+        0,
+        167970296966378,
+        "randomize"
+      ],
+      "title": "BSAI MiniMAX H3 Prompt (Stage 5)",
+      "color": "#4a4"
+    },
+    {
+      "id": 177,
+      "type": "PrimitiveFloat",
+      "pos": [
+        -4000,
+        3450
+      ],
+      "size": [
+        270,
+        70
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": [
+            424
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "PrimitiveFloat"
+      },
+      "widgets_values": [
+        10
+      ],
+      "title": "Duration (Stage 5) = 10s"
+    },
+    {
+      "id": 178,
+      "type": "ComfyMathExpression",
+      "pos": [
+        -3650,
+        3450
+      ],
+      "size": [
+        360,
+        160
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "values.a",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": 424,
+          "label": "a"
+        },
+        {
+          "name": "values.b",
+          "type": "FLOAT,INT,BOOLEAN",
+          "link": null,
+          "shape": 7,
+          "label": "b"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "FLOAT",
+          "type": "FLOAT",
+          "links": []
+        },
+        {
+          "name": "INT",
+          "type": "INT",
+          "links": [
+            425
+          ]
+        },
+        {
+          "name": "BOOL",
+          "type": "BOOLEAN",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ComfyMathExpression"
+      },
+      "widgets_values": [
+        "max(5, round(a * 24)) + (5 - (max(5, round(a * 24)) % 17)) % 17"
+      ],
+      "title": "Duration to Frames (Stage 5)"
+    },
+    {
+      "id": 179,
+      "type": "MiniMaxH3ReferenceToVideo",
+      "pos": [
+        -2500,
+        3100
+      ],
+      "size": [
+        500,
+        600
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "clip",
+          "type": "CLIP",
+          "link": 426
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 427
+        },
+        {
+          "name": "audio_vae",
+          "type": "VAE",
+          "link": 428
+        },
+        {
+          "name": "ref_images.ref_image_0",
+          "type": "IMAGE",
+          "link": 431,
+          "shape": 7,
+          "label": "ref_image_0"
+        },
+        {
+          "name": "ref_images.ref_image_1",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_1"
+        },
+        {
+          "name": "ref_videos.ref_video_0",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_0"
+        },
+        {
+          "name": "ref_video_audios.ref_video_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_video_audio_0"
+        },
+        {
+          "name": "ref_audios.ref_audio_0",
+          "type": "AUDIO",
+          "link": null,
+          "shape": 7,
+          "label": "ref_audio_0"
+        },
+        {
+          "name": "prompt",
+          "type": "STRING",
+          "link": 452,
+          "widget": {
+            "name": "prompt"
+          }
+        },
+        {
+          "name": "width",
+          "type": "INT",
+          "link": 429,
+          "widget": {
+            "name": "width"
+          }
+        },
+        {
+          "name": "height",
+          "type": "INT",
+          "link": 430,
+          "widget": {
+            "name": "height"
+          }
+        },
+        {
+          "name": "length",
+          "type": "INT",
+          "link": 425,
+          "widget": {
+            "name": "length"
+          }
+        },
+        {
+          "name": "ref_images.ref_image_2",
+          "type": "IMAGE",
+          "link": null,
+          "shape": 7,
+          "label": "ref_image_2"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "positive",
+          "type": "CONDITIONING",
+          "links": [
+            432
+          ]
+        },
+        {
+          "name": "LATENT",
+          "type": "LATENT",
+          "links": [
+            433
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "MiniMaxH3ReferenceToVideo"
+      },
+      "widgets_values": [
+        "",
+        896,
+        768,
+        125,
+        "match"
+      ],
+      "title": "Stage 5: Ref2V - Generate Clip 5",
+      "color": "#223"
+    },
+    {
+      "id": 180,
+      "type": "RandomNoise",
+      "pos": [
+        -1900,
+        3100
+      ],
+      "size": [
+        210,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise_seed",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "NOISE",
+          "type": "NOISE",
+          "links": [
+            434
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "RandomNoise"
+      },
+      "widgets_values": [
+        258020130451810,
+        "randomize"
+      ],
+      "title": "Noise (Stage 5)"
+    },
+    {
+      "id": 181,
+      "type": "BasicScheduler",
+      "pos": [
+        -1900,
+        3250
+      ],
+      "size": [
+        210,
+        106
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 437
+        },
+        {
+          "name": "scheduler",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "steps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "denoise",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "SIGMAS",
+          "type": "SIGMAS",
+          "links": [
+            438
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicScheduler"
+      },
+      "widgets_values": [
+        "simple",
+        6,
+        1
+      ],
+      "title": "Scheduler (Stage 5)"
+    },
+    {
+      "id": 182,
+      "type": "BasicGuider",
+      "pos": [
+        -1900,
+        3420
+      ],
+      "size": [
+        140,
+        46
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "model",
+          "type": "MODEL",
+          "link": 436
+        },
+        {
+          "name": "conditioning",
+          "type": "CONDITIONING",
+          "link": 432
+        }
+      ],
+      "outputs": [
+        {
+          "name": "GUIDER",
+          "type": "GUIDER",
+          "links": [
+            435
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BasicGuider"
+      },
+      "widgets_values": [],
+      "title": "Guider (Stage 5)"
+    },
+    {
+      "id": 183,
+      "type": "SamplerCustomAdvanced",
+      "pos": [
+        -1550,
+        3100
+      ],
+      "size": [
+        230,
+        326
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "noise",
+          "type": "NOISE",
+          "link": 434
+        },
+        {
+          "name": "guider",
+          "type": "GUIDER",
+          "link": 435
+        },
+        {
+          "name": "sampler",
+          "type": "SAMPLER",
+          "link": 439
+        },
+        {
+          "name": "sigmas",
+          "type": "SIGMAS",
+          "link": 438
+        },
+        {
+          "name": "latent_image",
+          "type": "LATENT",
+          "link": 433
+        }
+      ],
+      "outputs": [
+        {
+          "name": "output",
+          "type": "LATENT",
+          "links": [
+            440,
+            442
+          ]
+        },
+        {
+          "name": "denoised_output",
+          "type": "LATENT",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SamplerCustomAdvanced"
+      },
+      "widgets_values": [],
+      "title": "Sampler (Stage 5)"
+    },
+    {
+      "id": 184,
+      "type": "VAEDecode",
+      "pos": [
+        -1200,
+        3100
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 440
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 441
+        }
+      ],
+      "outputs": [
+        {
+          "name": "IMAGE",
+          "type": "IMAGE",
+          "links": [
+            444
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecode"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Video (Stage 5)"
+    },
+    {
+      "id": 185,
+      "type": "VAEDecodeAudio",
+      "pos": [
+        -1200,
+        3220
+      ],
+      "size": [
+        230,
+        60
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "samples",
+          "type": "LATENT",
+          "link": 442
+        },
+        {
+          "name": "vae",
+          "type": "VAE",
+          "link": 443
+        }
+      ],
+      "outputs": [
+        {
+          "name": "AUDIO",
+          "type": "AUDIO",
+          "links": [
+            446
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "VAEDecodeAudio"
+      },
+      "widgets_values": [],
+      "title": "VAE Decode Audio (Stage 5)"
+    },
+    {
+      "id": 186,
+      "type": "ZML_MemoryCleaner",
+      "pos": [
+        -900,
+        3100
+      ],
+      "size": [
+        227,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "任意数据",
+          "type": "IMAGE",
+          "link": 444
+        }
+      ],
+      "outputs": [
+        {
+          "name": "输出",
+          "type": "IMAGE",
+          "links": [
+            445
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "ZML_MemoryCleaner"
+      },
+      "widgets_values": [
+        true,
+        false
+      ],
+      "title": "Memory Cleaner (Stage 5)"
+    },
+    {
+      "id": 187,
+      "type": "CreateVideo",
+      "pos": [
+        -600,
+        3100
+      ],
+      "size": [
+        270,
+        110
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "images",
+          "type": "IMAGE",
+          "link": 445
+        },
+        {
+          "name": "audio",
+          "type": "AUDIO",
+          "link": 446,
+          "shape": 7
+        },
+        {
+          "name": "fps",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "bit_depth",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "VIDEO",
+          "type": "VIDEO",
+          "links": [
+            447
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "CreateVideo"
+      },
+      "widgets_values": [
+        24,
+        8
+      ],
+      "title": "Create Video (Stage 5)"
+    },
+    {
+      "id": 188,
+      "type": "SaveVideo",
+      "pos": [
+        -250,
+        3100
+      ],
+      "size": [
+        400,
+        126
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "link": 447
+        },
+        {
+          "name": "filename_prefix",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "format",
+          "type": "",
+          "link": null
+        },
+        {
+          "name": "codec",
+          "type": "",
+          "link": null
+        }
+      ],
+      "outputs": [
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        },
+        {
+          "name": "video",
+          "type": "VIDEO",
+          "links": []
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "SaveVideo"
+      },
+      "widgets_values": [
+        "BSAI/Contextual_Series_Auto/clip5",
+        "auto",
+        "auto"
+      ],
+      "title": "Save Clip 5",
+      "color": "#223"
+    },
+    {
+      "id": 189,
+      "type": "Note",
+      "pos": [
+        -5200,
+        -700
+      ],
+      "size": [
+        800,
+        400
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [],
+      "outputs": [],
+      "properties": {
+        "Node name for S&R": "Note"
+      },
+      "widgets_values": [
+        "BSAI-ComfyUI_Contextual Series - Auto-Expand Story Workflow (5-Stage)\nBSAI-ComfyUI_Contextual Series - 自动扩展剧情工作流（5段循环）\n\nThis workflow generates 5 consecutive video clips with visual consistency.\n本工作流生成5段连续视频片段，保持视觉一致性。\n\nStructure | 结构:\n  Stage 1: T2V (Text-to-Video) - First segment from 首段提示词\n  Stage 1: T2V（文生视频）- 来自首段提示词的第一段\n  Stage 2-5: Ref2V (Reference-to-Video) - Continuation segments\n  Stage 2-5: Ref2V（参考生视频）- 续写片段\n\nEach stage | 每段:\n  1. User prompt (≤15s) → BSAI MiniMAX H3 Prompt (optimization)\n  1. 用户提示词（≤15秒）→ BSAI MiniMAX H3 Prompt（优化）\n  2. Optimized prompt → MiniMax H3 generation (T2V or Ref2V)\n  2. 优化后提示词 → MiniMax H3 生成（T2V 或 Ref2V）\n  3. VAEDecode → Save Video + Contextual Series Extract\n  3. VAE解码 → 保存视频 + 上下文系列提取\n  4. Reference frames → Next stage's Ref2V\n  4. 参考帧 → 下一阶段的参考生视频\n\nTo add more stages: duplicate a Stage 2-5 block and chain the extract output.\n要增加更多段：复制 Stage 2-5 模块并链接提取输出。\n\nRequired models | 所需模型:\n  - diffusion_models/MiniMax-H3/minimax_h3_fl2va_int8_convrot.safetensors\n  - text_encoders/MiniMax-H3/qwen3vl_32b_minimax_h3_int8_convrot.safetensors\n  - vae/MiniMax-H3/minimax_h3_video_vae_fp16.safetensors\n  - vae/MiniMax-H3/minimax_h3_audio_vae_fp32.safetensors\n  - Turbo LoRA: minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors\n  - Qwen model: gemma-4-26B-A4B-it-heretic-ara.Q4_K_M.gguf"
+      ],
+      "title": "Workflow Instructions | 工作流说明",
+      "color": "#432",
+      "bgcolor": "#653"
+    },
+    {
+      "id": 190,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2950,
+        -300
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 304
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            448
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 1)"
+    },
+    {
+      "id": 191,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        550
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 333
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            449
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 2)"
+    },
+    {
+      "id": 192,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        1400
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 363
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            450
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 3)"
+    },
+    {
+      "id": 193,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        2250
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 393
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            451
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 4)"
+    },
+    {
+      "id": 194,
+      "type": "BSAI_H3_UnloadModel",
+      "pos": [
+        -2550,
+        3100
+      ],
+      "size": [
+        270,
+        82
+      ],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "inputs": [
+        {
+          "name": "any_input",
+          "type": "*",
+          "link": 423
+        }
+      ],
+      "outputs": [
+        {
+          "name": "any_output",
+          "type": "*",
+          "links": [
+            452
+          ]
+        }
+      ],
+      "properties": {
+        "Node name for S&R": "BSAI_H3_UnloadModel"
+      },
+      "widgets_values": [],
+      "title": "Unload LLM (after Stage 5)"
+    }
+  ],
+  "links": [
+    [
+      300,
+      101,
+      0,
+      105,
+      0,
+      "MODEL"
+    ],
+    [
+      301,
+      105,
+      0,
+      106,
+      0,
+      "MODEL"
+    ],
+    [
+      302,
+      113,
+      0,
+      114,
+      18,
+      "STRING"
+    ],
+    [
+      303,
+      100,
+      0,
+      114,
+      0,
+      "BSAI_QWEN_MODEL"
+    ],
+    [
+      304,
+      114,
+      0,
+      190,
+      0,
+      "STRING"
+    ],
+    [
+      305,
+      115,
+      0,
+      116,
+      0,
+      "FLOAT"
+    ],
+    [
+      306,
+      116,
+      1,
+      117,
+      7,
+      "INT"
+    ],
+    [
+      307,
+      102,
+      0,
+      117,
+      0,
+      "CLIP"
+    ],
+    [
+      308,
+      103,
+      0,
+      117,
+      1,
+      "VAE"
+    ],
+    [
+      309,
+      109,
+      0,
+      117,
+      5,
+      "INT"
+    ],
+    [
+      310,
+      109,
+      1,
+      117,
+      6,
+      "INT"
+    ],
+    [
+      311,
+      117,
+      0,
+      119,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      312,
+      117,
+      1,
+      120,
+      4,
+      "LATENT"
+    ],
+    [
+      313,
+      118,
+      0,
+      120,
+      0,
+      "NOISE"
+    ],
+    [
+      314,
+      119,
+      0,
+      120,
+      1,
+      "GUIDER"
+    ],
+    [
+      315,
+      106,
+      0,
+      119,
+      0,
+      "MODEL"
+    ],
+    [
+      316,
+      106,
+      0,
+      110,
+      0,
+      "MODEL"
+    ],
+    [
+      317,
+      110,
+      0,
+      111,
+      0,
+      "SIGMAS"
+    ],
+    [
+      318,
+      111,
+      0,
+      112,
+      0,
+      "SIGMAS"
+    ],
+    [
+      319,
+      112,
+      0,
+      120,
+      3,
+      "SIGMAS"
+    ],
+    [
+      320,
+      108,
+      0,
+      120,
+      2,
+      "SAMPLER"
+    ],
+    [
+      321,
+      120,
+      0,
+      121,
+      0,
+      "LATENT"
+    ],
+    [
+      322,
+      103,
+      0,
+      121,
+      1,
+      "VAE"
+    ],
+    [
+      323,
+      120,
+      0,
+      122,
+      0,
+      "LATENT"
+    ],
+    [
+      324,
+      104,
+      0,
+      122,
+      1,
+      "VAE"
+    ],
+    [
+      325,
+      121,
+      0,
+      123,
+      0,
+      "IMAGE"
+    ],
+    [
+      326,
+      122,
+      0,
+      123,
+      1,
+      "AUDIO"
+    ],
+    [
+      327,
+      123,
+      0,
+      124,
+      0,
+      "VIDEO"
+    ],
+    [
+      328,
+      121,
+      0,
+      125,
+      0,
+      "IMAGE"
+    ],
+    [
+      329,
+      113,
+      0,
+      127,
+      0,
+      "STRING"
+    ],
+    [
+      330,
+      126,
+      0,
+      127,
+      1,
+      "STRING"
+    ],
+    [
+      331,
+      127,
+      0,
+      128,
+      18,
+      "STRING"
+    ],
+    [
+      332,
+      100,
+      0,
+      128,
+      0,
+      "BSAI_QWEN_MODEL"
+    ],
+    [
+      333,
+      128,
+      0,
+      191,
+      0,
+      "STRING"
+    ],
+    [
+      334,
+      129,
+      0,
+      130,
+      0,
+      "FLOAT"
+    ],
+    [
+      335,
+      130,
+      1,
+      131,
+      11,
+      "INT"
+    ],
+    [
+      336,
+      102,
+      0,
+      131,
+      0,
+      "CLIP"
+    ],
+    [
+      337,
+      103,
+      0,
+      131,
+      1,
+      "VAE"
+    ],
+    [
+      338,
+      104,
+      0,
+      131,
+      2,
+      "VAE"
+    ],
+    [
+      339,
+      109,
+      0,
+      131,
+      9,
+      "INT"
+    ],
+    [
+      340,
+      109,
+      1,
+      131,
+      10,
+      "INT"
+    ],
+    [
+      341,
+      125,
+      0,
+      131,
+      3,
+      "IMAGE"
+    ],
+    [
+      342,
+      131,
+      0,
+      134,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      343,
+      131,
+      1,
+      135,
+      4,
+      "LATENT"
+    ],
+    [
+      344,
+      132,
+      0,
+      135,
+      0,
+      "NOISE"
+    ],
+    [
+      345,
+      134,
+      0,
+      135,
+      1,
+      "GUIDER"
+    ],
+    [
+      346,
+      106,
+      0,
+      134,
+      0,
+      "MODEL"
+    ],
+    [
+      347,
+      106,
+      0,
+      133,
+      0,
+      "MODEL"
+    ],
+    [
+      348,
+      133,
+      0,
+      135,
+      3,
+      "SIGMAS"
+    ],
+    [
+      349,
+      107,
+      0,
+      135,
+      2,
+      "SAMPLER"
+    ],
+    [
+      350,
+      135,
+      0,
+      136,
+      0,
+      "LATENT"
+    ],
+    [
+      351,
+      103,
+      0,
+      136,
+      1,
+      "VAE"
+    ],
+    [
+      352,
+      135,
+      0,
+      137,
+      0,
+      "LATENT"
+    ],
+    [
+      353,
+      104,
+      0,
+      137,
+      1,
+      "VAE"
+    ],
+    [
+      354,
+      136,
+      0,
+      138,
+      0,
+      "IMAGE"
+    ],
+    [
+      355,
+      138,
+      0,
+      139,
+      0,
+      "IMAGE"
+    ],
+    [
+      356,
+      137,
+      0,
+      139,
+      1,
+      "AUDIO"
+    ],
+    [
+      357,
+      139,
+      0,
+      140,
+      0,
+      "VIDEO"
+    ],
+    [
+      358,
+      136,
+      0,
+      141,
+      0,
+      "IMAGE"
+    ],
+    [
+      359,
+      113,
+      0,
+      143,
+      0,
+      "STRING"
+    ],
+    [
+      360,
+      142,
+      0,
+      143,
+      1,
+      "STRING"
+    ],
+    [
+      361,
+      143,
+      0,
+      144,
+      18,
+      "STRING"
+    ],
+    [
+      362,
+      100,
+      0,
+      144,
+      0,
+      "BSAI_QWEN_MODEL"
+    ],
+    [
+      363,
+      144,
+      0,
+      192,
+      0,
+      "STRING"
+    ],
+    [
+      364,
+      145,
+      0,
+      146,
+      0,
+      "FLOAT"
+    ],
+    [
+      365,
+      146,
+      1,
+      147,
+      11,
+      "INT"
+    ],
+    [
+      366,
+      102,
+      0,
+      147,
+      0,
+      "CLIP"
+    ],
+    [
+      367,
+      103,
+      0,
+      147,
+      1,
+      "VAE"
+    ],
+    [
+      368,
+      104,
+      0,
+      147,
+      2,
+      "VAE"
+    ],
+    [
+      369,
+      109,
+      0,
+      147,
+      9,
+      "INT"
+    ],
+    [
+      370,
+      109,
+      1,
+      147,
+      10,
+      "INT"
+    ],
+    [
+      371,
+      141,
+      0,
+      147,
+      3,
+      "IMAGE"
+    ],
+    [
+      372,
+      147,
+      0,
+      150,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      373,
+      147,
+      1,
+      151,
+      4,
+      "LATENT"
+    ],
+    [
+      374,
+      148,
+      0,
+      151,
+      0,
+      "NOISE"
+    ],
+    [
+      375,
+      150,
+      0,
+      151,
+      1,
+      "GUIDER"
+    ],
+    [
+      376,
+      106,
+      0,
+      150,
+      0,
+      "MODEL"
+    ],
+    [
+      377,
+      106,
+      0,
+      149,
+      0,
+      "MODEL"
+    ],
+    [
+      378,
+      149,
+      0,
+      151,
+      3,
+      "SIGMAS"
+    ],
+    [
+      379,
+      107,
+      0,
+      151,
+      2,
+      "SAMPLER"
+    ],
+    [
+      380,
+      151,
+      0,
+      152,
+      0,
+      "LATENT"
+    ],
+    [
+      381,
+      103,
+      0,
+      152,
+      1,
+      "VAE"
+    ],
+    [
+      382,
+      151,
+      0,
+      153,
+      0,
+      "LATENT"
+    ],
+    [
+      383,
+      104,
+      0,
+      153,
+      1,
+      "VAE"
+    ],
+    [
+      384,
+      152,
+      0,
+      154,
+      0,
+      "IMAGE"
+    ],
+    [
+      385,
+      154,
+      0,
+      155,
+      0,
+      "IMAGE"
+    ],
+    [
+      386,
+      153,
+      0,
+      155,
+      1,
+      "AUDIO"
+    ],
+    [
+      387,
+      155,
+      0,
+      156,
+      0,
+      "VIDEO"
+    ],
+    [
+      388,
+      152,
+      0,
+      157,
+      0,
+      "IMAGE"
+    ],
+    [
+      389,
+      113,
+      0,
+      159,
+      0,
+      "STRING"
+    ],
+    [
+      390,
+      158,
+      0,
+      159,
+      1,
+      "STRING"
+    ],
+    [
+      391,
+      159,
+      0,
+      160,
+      18,
+      "STRING"
+    ],
+    [
+      392,
+      100,
+      0,
+      160,
+      0,
+      "BSAI_QWEN_MODEL"
+    ],
+    [
+      393,
+      160,
+      0,
+      193,
+      0,
+      "STRING"
+    ],
+    [
+      394,
+      161,
+      0,
+      162,
+      0,
+      "FLOAT"
+    ],
+    [
+      395,
+      162,
+      1,
+      163,
+      11,
+      "INT"
+    ],
+    [
+      396,
+      102,
+      0,
+      163,
+      0,
+      "CLIP"
+    ],
+    [
+      397,
+      103,
+      0,
+      163,
+      1,
+      "VAE"
+    ],
+    [
+      398,
+      104,
+      0,
+      163,
+      2,
+      "VAE"
+    ],
+    [
+      399,
+      109,
+      0,
+      163,
+      9,
+      "INT"
+    ],
+    [
+      400,
+      109,
+      1,
+      163,
+      10,
+      "INT"
+    ],
+    [
+      401,
+      157,
+      0,
+      163,
+      3,
+      "IMAGE"
+    ],
+    [
+      402,
+      163,
+      0,
+      166,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      403,
+      163,
+      1,
+      167,
+      4,
+      "LATENT"
+    ],
+    [
+      404,
+      164,
+      0,
+      167,
+      0,
+      "NOISE"
+    ],
+    [
+      405,
+      166,
+      0,
+      167,
+      1,
+      "GUIDER"
+    ],
+    [
+      406,
+      106,
+      0,
+      166,
+      0,
+      "MODEL"
+    ],
+    [
+      407,
+      106,
+      0,
+      165,
+      0,
+      "MODEL"
+    ],
+    [
+      408,
+      165,
+      0,
+      167,
+      3,
+      "SIGMAS"
+    ],
+    [
+      409,
+      107,
+      0,
+      167,
+      2,
+      "SAMPLER"
+    ],
+    [
+      410,
+      167,
+      0,
+      168,
+      0,
+      "LATENT"
+    ],
+    [
+      411,
+      103,
+      0,
+      168,
+      1,
+      "VAE"
+    ],
+    [
+      412,
+      167,
+      0,
+      169,
+      0,
+      "LATENT"
+    ],
+    [
+      413,
+      104,
+      0,
+      169,
+      1,
+      "VAE"
+    ],
+    [
+      414,
+      168,
+      0,
+      170,
+      0,
+      "IMAGE"
+    ],
+    [
+      415,
+      170,
+      0,
+      171,
+      0,
+      "IMAGE"
+    ],
+    [
+      416,
+      169,
+      0,
+      171,
+      1,
+      "AUDIO"
+    ],
+    [
+      417,
+      171,
+      0,
+      172,
+      0,
+      "VIDEO"
+    ],
+    [
+      418,
+      168,
+      0,
+      173,
+      0,
+      "IMAGE"
+    ],
+    [
+      419,
+      113,
+      0,
+      175,
+      0,
+      "STRING"
+    ],
+    [
+      420,
+      174,
+      0,
+      175,
+      1,
+      "STRING"
+    ],
+    [
+      421,
+      175,
+      0,
+      176,
+      18,
+      "STRING"
+    ],
+    [
+      422,
+      100,
+      0,
+      176,
+      0,
+      "BSAI_QWEN_MODEL"
+    ],
+    [
+      423,
+      176,
+      0,
+      194,
+      0,
+      "STRING"
+    ],
+    [
+      424,
+      177,
+      0,
+      178,
+      0,
+      "FLOAT"
+    ],
+    [
+      425,
+      178,
+      1,
+      179,
+      11,
+      "INT"
+    ],
+    [
+      426,
+      102,
+      0,
+      179,
+      0,
+      "CLIP"
+    ],
+    [
+      427,
+      103,
+      0,
+      179,
+      1,
+      "VAE"
+    ],
+    [
+      428,
+      104,
+      0,
+      179,
+      2,
+      "VAE"
+    ],
+    [
+      429,
+      109,
+      0,
+      179,
+      9,
+      "INT"
+    ],
+    [
+      430,
+      109,
+      1,
+      179,
+      10,
+      "INT"
+    ],
+    [
+      431,
+      173,
+      0,
+      179,
+      3,
+      "IMAGE"
+    ],
+    [
+      432,
+      179,
+      0,
+      182,
+      1,
+      "CONDITIONING"
+    ],
+    [
+      433,
+      179,
+      1,
+      183,
+      4,
+      "LATENT"
+    ],
+    [
+      434,
+      180,
+      0,
+      183,
+      0,
+      "NOISE"
+    ],
+    [
+      435,
+      182,
+      0,
+      183,
+      1,
+      "GUIDER"
+    ],
+    [
+      436,
+      106,
+      0,
+      182,
+      0,
+      "MODEL"
+    ],
+    [
+      437,
+      106,
+      0,
+      181,
+      0,
+      "MODEL"
+    ],
+    [
+      438,
+      181,
+      0,
+      183,
+      3,
+      "SIGMAS"
+    ],
+    [
+      439,
+      107,
+      0,
+      183,
+      2,
+      "SAMPLER"
+    ],
+    [
+      440,
+      183,
+      0,
+      184,
+      0,
+      "LATENT"
+    ],
+    [
+      441,
+      103,
+      0,
+      184,
+      1,
+      "VAE"
+    ],
+    [
+      442,
+      183,
+      0,
+      185,
+      0,
+      "LATENT"
+    ],
+    [
+      443,
+      104,
+      0,
+      185,
+      1,
+      "VAE"
+    ],
+    [
+      444,
+      184,
+      0,
+      186,
+      0,
+      "IMAGE"
+    ],
+    [
+      445,
+      186,
+      0,
+      187,
+      0,
+      "IMAGE"
+    ],
+    [
+      446,
+      185,
+      0,
+      187,
+      1,
+      "AUDIO"
+    ],
+    [
+      447,
+      187,
+      0,
+      188,
+      0,
+      "VIDEO"
+    ],
+    [
+      448,
+      190,
+      0,
+      117,
+      4,
+      "STRING"
+    ],
+    [
+      449,
+      191,
+      0,
+      131,
+      8,
+      "STRING"
+    ],
+    [
+      450,
+      192,
+      0,
+      147,
+      8,
+      "STRING"
+    ],
+    [
+      451,
+      193,
+      0,
+      163,
+      8,
+      "STRING"
+    ],
+    [
+      452,
+      194,
+      0,
+      179,
+      8,
+      "STRING"
+    ]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "title": "Shared Resources | 共享资源",
+      "bounding": [
+        -5220,
+        -750,
+        520,
+        1700
+      ],
+      "color": "#3f789e",
+      "flags": {}
+    },
+    {
+      "id": 2,
+      "title": "Stage 1: T2V (Clip 1) | 第一段：文生视频",
+      "bounding": [
+        -4020,
+        -350,
+        3620,
+        800
+      ],
+      "color": "#223",
+      "flags": {}
+    },
+    {
+      "id": 3,
+      "title": "Stage 2: Ref2V (Clip 2) | 第二段：参考生视频",
+      "bounding": [
+        -4020,
+        500,
+        3820,
+        800
+      ],
+      "color": "#223",
+      "flags": {}
+    },
+    {
+      "id": 4,
+      "title": "Stage 3: Ref2V (Clip 3) | 第三段：参考生视频",
+      "bounding": [
+        -4020,
+        1350,
+        3820,
+        800
+      ],
+      "color": "#223",
+      "flags": {}
+    },
+    {
+      "id": 5,
+      "title": "Stage 4: Ref2V (Clip 4) | 第四段：参考生视频",
+      "bounding": [
+        -4020,
+        2200,
+        3820,
+        800
+      ],
+      "color": "#223",
+      "flags": {}
+    },
+    {
+      "id": 6,
+      "title": "Stage 5: Ref2V (Clip 5) | 第五段：参考生视频",
+      "bounding": [
+        -4020,
+        3050,
+        3820,
+        800
+      ],
+      "color": "#223",
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "frontendVersion": "1.47.12",
+    "ds": {
+      "scale": 0.4,
+      "offset": [
+        1500,
+        800
+      ]
+    }
+  },
+  "version": 0.4
+}
