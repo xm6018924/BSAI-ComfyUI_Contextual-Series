@@ -547,11 +547,15 @@ function addThumbnail(sec, node, sectionEl, filename, thumbnail, displayName) {
         img.style.cssText = "width:100%;height:100%;object-fit:cover;";
         img.loading = "lazy";
         img.onerror = function() {
-            img.style.display = "none";
-            var ph = document.createElement("div");
-            ph.className = "bsai-thumb-ph";
-            ph.textContent = "IMG";
-            thumb.appendChild(ph);
+            // The file referenced by the (possibly stale) widget value no
+            // longer exists on disk. Drop the ghost thumbnail entirely so
+            // its filename does NOT get written back into the widget/manifest
+            // on reload — this stops cleared assets from reappearing.
+            var host = wrap.parentNode;
+            if (host) host.removeChild(wrap);
+            renumberThumbnails(sec, sectionEl);
+            updateCount(sec, sectionEl);
+            updateWidgetValue(sec, node, sectionEl);
         };
         thumb.appendChild(img);
     } else if (sec.id === "videos") {
@@ -560,11 +564,11 @@ function addThumbnail(sec, node, sectionEl, filename, thumbnail, displayName) {
         img.style.cssText = "width:100%;height:100%;object-fit:cover;";
         img.loading = "lazy";
         img.onerror = function() {
-            img.style.display = "none";
-            var ph = document.createElement("div");
-            ph.className = "bsai-thumb-ph";
-            ph.textContent = "VIDEO";
-            thumb.appendChild(ph);
+            var host = wrap.parentNode;
+            if (host) host.removeChild(wrap);
+            renumberThumbnails(sec, sectionEl);
+            updateCount(sec, sectionEl);
+            updateWidgetValue(sec, node, sectionEl);
         };
         thumb.appendChild(img);
     } else {
@@ -674,16 +678,31 @@ function renumberThumbnails(sec, sectionEl) {
     });
 }
 
-function removeAllInSection(sec, node, sectionEl) {
-    // Delete actual files from disk via backend
-    var assetType = sec.id === "audios" ? "audio" : sec.id;
-    fetch("/bsai/remove_all_assets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ asset_type: assetType }),
-    }).catch(function (e) {
+async function removeAllInSection(sec, node, sectionEl) {
+    // Delete actual files from disk via backend. Wait for the result so a
+    // silent failure (file locked by another process) is surfaced to the
+    // user instead of leaving deleted assets on disk to "come back".
+    var assetType = sec.id;
+    try {
+        var resp = await fetch("/bsai/remove_all_assets", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ asset_type: assetType }),
+        });
+        var result = await resp.json();
+        if (!result.ok) {
+            var nFailed = (result.failed || []).length;
+            if (nFailed > 0) {
+                console.warn("[BSAI] Could not fully delete assets:", result.failed);
+                alert("有 " + nFailed + " 个文件无法从磁盘删除（可能被其他程序占用）。\n" +
+                      "已从列表移除并清空清单，但磁盘上仍有残留文件。\n" +
+                      "请重启 ComfyUI 后再点一次“全部删除”，以彻底清除。");
+            }
+        }
+    } catch (e) {
         console.warn("[BSAI] Failed to remove assets from disk:", e);
-    });
+        alert("删除资产时网络/后端请求失败，请检查 ComfyUI 控制台后重试。");
+    }
     var grid = sectionEl.querySelector('[data-grid="' + sec.id + '"]');
     grid.innerHTML = "";
     updateCount(sec, sectionEl);

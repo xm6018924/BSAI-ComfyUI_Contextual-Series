@@ -206,7 +206,7 @@ class BSAI_AssetLibraryInput:
                     cap.release()
                 library["videos"].append(entry)
 
-        aud_dir = os.path.join(asset_base, "audio")
+        aud_dir = os.path.join(asset_base, "audios")
         for fname in aud_list:
             fpath = os.path.join(aud_dir, fname)
             if os.path.exists(fpath):

@@ -216,24 +216,23 @@ if _HAS_SERVER:
         for asset_type, exts, key in [
             ("images", _IMG_EXTS, "images"),
             ("videos", _VID_EXTS, "videos"),
-            ("audio", _AUD_EXTS, "audios"),
+            ("audios", _AUD_EXTS, "audios"),
         ]:
             d = _get_asset_dir(asset_type)
             if not os.path.isdir(d):
                 continue
             all_files = [f for f in os.listdir(d) if f.lower().endswith(exts)]
 
-            # Use manifest as filter+order: if the manifest has this key,
-            # only return files listed in the manifest. This respects
-            # "Remove All" which clears the manifest entry.
-            ordered = manifest.get(key, [])
-            if key in manifest:
+            # The manifest is the single source of truth for what the user
+            # has chosen. When "Remove All" clears an entry to [] we MUST
+            # honour that and return an empty list — scanning the directory
+            # as a fallback resurrects deleted assets, which is the bug the
+            # user reported (cleared assets come back automatically).
+            # Only when the manifest has no such key at all (first run) do
+            # we scan the directory so existing files are picked up.
+            ordered = manifest.get(key, None)
+            if ordered is not None:
                 files = [f for f in ordered if f in all_files]
-                # Fallback: manifest entry empty (e.g. stale "Remove All"
-                # or cross-plugin manifest overwrite) but files exist on
-                # disk -> rescan the directory so assets stay visible.
-                if not files and all_files:
-                    files = list(all_files)
             else:
                 files = list(all_files)
 
@@ -260,25 +259,51 @@ if _HAS_SERVER:
 
     @PromptServer.instance.routes.post("/bsai/remove_all_assets")
     async def remove_all_assets(request):
-        """Delete all files of a given asset type from disk."""
+        """Delete all files of a given asset type from disk.
+        Returns per-file failures (e.g. locked by another process) and also
+        clears the matching entry in asset_order.json, so a stale manifest
+        can never make removed assets reappear downstream."""
         try:
             body = await request.json()
         except Exception:
             return web.json_response({"error": "Invalid JSON"}, status=400)
         asset_type = str(body.get("asset_type", ""))
-        if asset_type not in ("images", "videos", "audio"):
+        # Canonical directory name is "audios"; accept legacy "audio".
+        dir_type = "audios" if asset_type == "audio" else asset_type
+        manifest_key = "audios" if dir_type == "audio" else dir_type
+        if manifest_key not in ("images", "videos", "audios"):
             return web.json_response({"error": "Invalid asset_type"}, status=400)
-        d = _get_asset_dir(asset_type)
+        d = _get_asset_dir(dir_type)
         deleted = 0
+        failed = []
         for fname in os.listdir(d):
             filepath = os.path.join(d, fname)
             try:
                 if os.path.isfile(filepath):
                     os.remove(filepath)
                     deleted += 1
-            except OSError:
-                pass
-        return web.json_response({"ok": True, "deleted": deleted})
+            except OSError as e:
+                failed.append({"name": fname, "error": str(e)})
+
+        # Authoritatively clear this type in the shared manifest so the
+        # change cannot be undone by a stale/duplicate frontend save.
+        manifest_path = os.path.join(_get_asset_dir(""), "asset_order.json")
+        try:
+            manifest = {}
+            if os.path.isfile(manifest_path):
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+            manifest[manifest_key] = []
+            with open(manifest_path, "w", encoding="utf-8") as f:
+                json.dump(manifest, f, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"[BSAI AssetServer] Failed to clear manifest entry: {e}")
+
+        return web.json_response({
+            "ok": len(failed) == 0,
+            "deleted": deleted,
+            "failed": failed,
+        })
 
     @PromptServer.instance.routes.get("/bsai/list_fonts")
     async def list_fonts(request):
