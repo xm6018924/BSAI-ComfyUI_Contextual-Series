@@ -107,7 +107,7 @@ class BSAI_ClipComposer:
     RETURN_TYPES = ("CLIP_INFO",)
     RETURN_NAMES = ("clip_info",)
     FUNCTION = "compose_clip"
-    DESCRIPTION = "Define a clip: prompt, subtitle (旁白/对白), audio mode, duration, asset refs (@图N/@视频N/@音频N)."
+    DESCRIPTION = "Define a clip: prompt, subtitle (narration/dialogue), audio mode, duration, asset refs (@图N/@视频N/@音频N)."
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -115,8 +115,8 @@ class BSAI_ClipComposer:
             "required": {
                 "prompt": ("STRING", {"default": "", "multiline": True, "tooltip": "Generation prompt. Use 【旁白】/【对白】 for subtitles, @图N/@视频N/@音频N for assets."}),
                 "asset_refs": ("STRING", {"default": "", "multiline": False, "tooltip": "Asset references: @图1 @图2 @视频1 @音频1"}),
-                "narration": ("STRING", {"default": "", "multiline": True, "tooltip": "旁白字幕 (narration subtitle text). Used when subtitle_source='manual'."}),
-                "dialogue": ("STRING", {"default": "", "multiline": True, "tooltip": "对白字幕 (dialogue subtitle text). Used when subtitle_source='manual'."}),
+                "narration": ("STRING", {"default": "", "multiline": True, "tooltip": "Narration subtitle text. Used when subtitle_source='manual'."}),
+                "dialogue": ("STRING", {"default": "", "multiline": True, "tooltip": "Dialogue subtitle text. Used when subtitle_source='manual'."}),
                 "subtitle_source": (["manual", "extract_from_prompt"], {"default": "manual", "tooltip": "manual: use narration/dialogue fields. extract_from_prompt: parse 【旁白】/【对白】 from prompt."}),
                 "audio_mode": (["H3_auto", "custom"], {"default": "H3_auto", "tooltip": "H3_auto: use H3 generated audio. custom: use user-provided audio."}),
                 "duration": ("FLOAT", {"default": 5.0, "min": 0.25, "max": 150.0, "step": 0.25, "tooltip": "Clip duration in seconds. Snapped to H3 17n+5 frame grid."}),
@@ -182,7 +182,7 @@ class BSAI_ClipSequencer:
     RETURN_TYPES = ("CLIP_SEQUENCE",)
     RETURN_NAMES = ("clip_sequence",)
     FUNCTION = "sequence_clips"
-    DESCRIPTION = "Storyboard sequencer: vertical CLIP cards, @资产库引用, manual add/remove clips."
+    DESCRIPTION = "Storyboard sequencer: vertical CLIP cards, asset-library refs (@图N), manual add/remove clips."
 
     MAX_EXT_CLIPS = 4
 

@@ -128,7 +128,7 @@ class BSAI_SubtitleConfig:
     RETURN_TYPES = ("SUBTITLE_CONFIG",)
     RETURN_NAMES = ("subtitle_config",)
     FUNCTION = "configure"
-    DESCRIPTION = "Configure subtitle styling: font from C:\\Windows\\Fonts, color, size, position for 旁白 and 对白."
+    DESCRIPTION = "Configure subtitle styling: font from C:\\Windows\\Fonts, color, size, position for narration and dialogue."
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -136,10 +136,10 @@ class BSAI_SubtitleConfig:
             "required": {
                 "font_name": (_AVAILABLE_FONTS, {"default": _DEFAULT_FONT, "tooltip": "Font file from C:\\Windows\\Fonts"}),
                 "font_size": ("INT", {"default": 36, "min": 8, "max": 200, "step": 1, "tooltip": "Font size in pixels"}),
-                "narration_color": ("STRING", {"default": "#FFFFFF", "tooltip": "旁白 subtitle color (hex, e.g. #FFFFFF for white)"}),
-                "dialogue_color": ("STRING", {"default": "#FFEE88", "tooltip": "对白 subtitle color (hex, e.g. #FFEE88 for yellow)"}),
-                "narration_position": (["top", "center", "bottom"], {"default": "top", "tooltip": "旁白 subtitle vertical position"}),
-                "dialogue_position": (["top", "center", "bottom"], {"default": "bottom", "tooltip": "对白 subtitle vertical position"}),
+                "narration_color": ("STRING", {"default": "#FFFFFF", "tooltip": "Narration subtitle color (hex, e.g. #FFFFFF for white)"}),
+                "dialogue_color": ("STRING", {"default": "#FFEE88", "tooltip": "Dialogue subtitle color (hex, e.g. #FFEE88 for yellow)"}),
+                "narration_position": (["top", "center", "bottom"], {"default": "top", "tooltip": "Narration subtitle vertical position"}),
+                "dialogue_position": (["top", "center", "bottom"], {"default": "bottom", "tooltip": "Dialogue subtitle vertical position"}),
                 "background_box": ("BOOLEAN", {"default": True, "tooltip": "Draw semi-transparent background behind text for readability"}),
                 "margin": ("INT", {"default": 30, "min": 0, "max": 500, "step": 1, "tooltip": "Margin from screen edge in pixels"}),
             }
@@ -168,7 +168,7 @@ class BSAI_SubtitleRenderer:
     RETURN_TYPES = ("IMAGE",)
     RETURN_NAMES = ("images",)
     FUNCTION = "render"
-    DESCRIPTION = "Burn-in 旁白/对白 subtitles onto video frames using configured font and style."
+    DESCRIPTION = "Burn-in narration/dialogue subtitles onto video frames using configured font and style."
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -179,8 +179,8 @@ class BSAI_SubtitleRenderer:
             },
             "optional": {
                 "clip_info": ("CLIP_INFO", {"tooltip": "Clip info containing narration/dialogue text. Overrides manual text."}),
-                "narration": ("STRING", {"default": "", "multiline": True, "tooltip": "旁白 subtitle text (used if clip_info not connected)"}),
-                "dialogue": ("STRING", {"default": "", "multiline": True, "tooltip": "对白 subtitle text (used if clip_info not connected)"}),
+                "narration": ("STRING", {"default": "", "multiline": True, "tooltip": "Narration subtitle text (used if clip_info not connected)"}),
+                "dialogue": ("STRING", {"default": "", "multiline": True, "tooltip": "Dialogue subtitle text (used if clip_info not connected)"}),
             }
         }
 

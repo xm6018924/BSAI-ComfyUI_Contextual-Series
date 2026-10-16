@@ -180,14 +180,27 @@ class BSAI_ContextualSeriesExtract:
     @staticmethod
     def _save_frames(images, output_subdir, filename_prefix):
         output_dir = folder_paths.get_output_directory()
+        base_real = os.path.realpath(output_dir)
+        # Containment: output_subdir must be relative and must not escape the
+        # ComfyUI output directory (absolute paths and ".." are not allowed).
         save_dir = os.path.join(output_dir, output_subdir)
+        save_real = os.path.realpath(save_dir)
+        if os.path.commonpath([base_real, save_real]) != base_real:
+            raise ValueError(
+                "output_subdir must stay inside ComfyUI's output directory "
+                "(absolute paths and '..' are not allowed)."
+            )
         os.makedirs(save_dir, exist_ok=True)
 
         for i in range(images.shape[0]):
             img_np = (images[i].cpu().numpy() * 255.0).astype(np.uint8)
-            Image.fromarray(img_np).save(
-                os.path.join(save_dir, f"{filename_prefix}_{i:05d}.png")
-            )
+            path = os.path.join(save_real, f"{filename_prefix}_{i:05d}.png")
+            if os.path.commonpath([save_real, os.path.realpath(path)]) != save_real:
+                raise ValueError(
+                    "filename_prefix must not escape the output subdirectory "
+                    "(absolute paths and '..' are not allowed)."
+                )
+            Image.fromarray(img_np).save(path)
 
     @classmethod
     def IS_CHANGED(cls, **kwargs):
@@ -203,17 +216,28 @@ class BSAI_ContextualSeriesLoad:
 
     @staticmethod
     def _resolve_directory(directory):
-        if os.path.isabs(directory) and os.path.isdir(directory):
-            return directory
-        candidates = [
-            os.path.join(folder_paths.get_output_directory(), directory),
-            os.path.join(folder_paths.get_input_directory(), directory),
-            directory,
+        # Confined read: only ComfyUI's output/input directories are allowed.
+        bases = [
+            os.path.realpath(folder_paths.get_output_directory()),
+            os.path.realpath(folder_paths.get_input_directory()),
         ]
-        for c in candidates:
-            if os.path.isdir(c):
-                return c
-        return directory
+        if os.path.isabs(directory):
+            real = os.path.realpath(directory)
+            if any(os.path.commonpath([b, real]) == b for b in bases) and os.path.isdir(real):
+                return real
+            raise ValueError(
+                "directory must be inside ComfyUI's output or input directory "
+                "(absolute paths elsewhere are not allowed)."
+            )
+        for b in bases:
+            cand = os.path.join(b, directory)
+            real = os.path.realpath(cand)
+            if os.path.commonpath([b, real]) == b and os.path.isdir(real):
+                return real
+        raise ValueError(
+            "directory not found under ComfyUI output/input; use a name "
+            "relative to one of those folders."
+        )
 
     @classmethod
     def INPUT_TYPES(cls):

@@ -72,7 +72,7 @@ if (!document.getElementById(STYLE_ID)) {
     flex:1 1 0; min-height:0; max-height:none; overflow-y:auto; background:#111;
 }
 .bsai-grid:empty::after {
-    content:"No assets / 无资产"; color:#555; font-size:11px;
+    content:"No assets"; color:#555; font-size:11px;
     padding:16px; width:100%; text-align:center;
 }
 .bsai-thumb-wrap {
@@ -137,9 +137,9 @@ if (!document.getElementById(STYLE_ID)) {
 }
 
 var SECTIONS = [
-    { id: "images", title: "图片资产 / Images", prefix: "图", accept: "image/*", widget: "image_files" },
-    { id: "videos", title: "视频资产 / Videos", prefix: "视频", accept: "video/*", widget: "video_files" },
-    { id: "audios", title: "音频资产 / Audio", prefix: "音频", accept: "audio/*", widget: "audio_files" },
+    { id: "images", title: "Images", prefix: "图", accept: "image/*", widget: "image_files" },
+    { id: "videos", title: "Videos", prefix: "视频", accept: "video/*", widget: "video_files" },
+    { id: "audios", title: "Audio", prefix: "音频", accept: "audio/*", widget: "audio_files" },
 ];
 
 app.registerExtension({
@@ -276,7 +276,7 @@ function createSection(sec, node) {
 
     var upBtn = document.createElement("div");
     upBtn.className = "bsai-btn bsai-btn-up";
-    upBtn.textContent = "+ 上传" + (sec.id === "images" ? "图片" : sec.id === "videos" ? "视频" : "音频") + " / Upload";
+    upBtn.textContent = "+ Upload " + (sec.id === "images" ? "Images" : sec.id === "videos" ? "Videos" : "Audio");
     upBtn.addEventListener("click", function (e) {
         e.stopPropagation();
         openFilePicker(sec, node, el);
@@ -284,7 +284,7 @@ function createSection(sec, node) {
 
     var rmBtn = document.createElement("div");
     rmBtn.className = "bsai-btn bsai-btn-rm";
-    rmBtn.textContent = "全部删除 / Remove All";
+    rmBtn.textContent = "Remove All";
     rmBtn.addEventListener("click", function (e) {
         e.stopPropagation();
         removeAllInSection(sec, node, el);
@@ -413,7 +413,7 @@ async function replaceAsset(sec, node, sectionEl, wrap) {
             var del = document.createElement("div");
             del.className = "bsai-thumb-del";
             del.textContent = "X";
-            del.title = "删除 / Delete";
+            del.title = "Delete";
             del.addEventListener("click", function (e) {
                 e.stopPropagation();
                 wrap.remove();
@@ -426,7 +426,7 @@ async function replaceAsset(sec, node, sectionEl, wrap) {
             var rep = document.createElement("div");
             rep.className = "bsai-thumb-rep";
             rep.innerHTML = "&#8635;";
-            rep.title = "替换 / Replace (保持编号不变)";
+            rep.title = "Replace (keeps index)";
             rep.addEventListener("click", function (e) {
                 e.stopPropagation();
                 e.preventDefault();
@@ -583,7 +583,7 @@ function addThumbnail(sec, node, sectionEl, filename, thumbnail, displayName) {
     var del = document.createElement("div");
     del.className = "bsai-thumb-del";
     del.textContent = "X";
-    del.title = "删除 / Delete";
+    del.title = "Delete";
     del.addEventListener("click", function (e) {
         e.stopPropagation();
         wrap.remove();
@@ -597,7 +597,7 @@ function addThumbnail(sec, node, sectionEl, filename, thumbnail, displayName) {
     var rep = document.createElement("div");
     rep.className = "bsai-thumb-rep";
     rep.innerHTML = "&#8635;";
-    rep.title = "替换 / Replace (保持编号不变)";
+    rep.title = "Replace (keeps index)";
     rep.addEventListener("click", function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -694,14 +694,14 @@ async function removeAllInSection(sec, node, sectionEl) {
             var nFailed = (result.failed || []).length;
             if (nFailed > 0) {
                 console.warn("[BSAI] Could not fully delete assets:", result.failed);
-                alert("有 " + nFailed + " 个文件无法从磁盘删除（可能被其他程序占用）。\n" +
-                      "已从列表移除并清空清单，但磁盘上仍有残留文件。\n" +
-                      "请重启 ComfyUI 后再点一次“全部删除”，以彻底清除。");
+                alert(nFailed + " file(s) could not be deleted from disk (possibly in use).\n" +
+                      "They were removed from the list, but leftover files remain on disk.\n" +
+                      "Restart ComfyUI and click Remove All again to fully clear them.");
             }
         }
     } catch (e) {
         console.warn("[BSAI] Failed to remove assets from disk:", e);
-        alert("删除资产时网络/后端请求失败，请检查 ComfyUI 控制台后重试。");
+        alert("Failed to delete assets: network/backend request error. Check the ComfyUI console and retry.");
     }
     var grid = sectionEl.querySelector('[data-grid="' + sec.id + '"]');
     grid.innerHTML = "";
