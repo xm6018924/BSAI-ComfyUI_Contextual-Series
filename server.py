@@ -38,13 +38,23 @@ _IMG_EXTS = ('.png', '.jpg', '.jpeg', '.webp', '.bmp')
 _VID_EXTS = ('.mp4', '.avi', '.mov', '.mkv', '.webm', '.flv')
 _AUD_EXTS = ('.wav', '.mp3', '.flac', '.ogg', '.aac', '.m4a')
 
+# Whitelist of asset subdirectories. Any other value for the `type` query
+# parameter is rejected to prevent read/write/delete outside bsai_assets/.
+_ASSET_TYPE_WHITELIST = ("images", "videos", "audios")
+
 
 def _get_asset_dir(asset_type):
     if _HAS_FOLDER_PATHS:
         base = folder_paths.get_input_directory()
     else:
         base = os.path.join(os.path.dirname(__file__), '..', '..', 'input')
-    d = os.path.join(base, 'bsai_assets', asset_type)
+    base = os.path.realpath(os.path.join(base, 'bsai_assets'))
+    if asset_type:
+        if asset_type not in _ASSET_TYPE_WHITELIST:
+            raise ValueError(f"Invalid asset_type: {asset_type!r}")
+        d = os.path.join(base, asset_type)
+    else:
+        d = base
     os.makedirs(d, exist_ok=True)
     return d
 
@@ -77,6 +87,8 @@ if _HAS_SERVER:
     @PromptServer.instance.routes.post("/bsai/upload_asset")
     async def upload_asset(request):
         asset_type = request.query.get('type', 'images')
+        if asset_type not in _ASSET_TYPE_WHITELIST:
+            return web.json_response({"error": "Invalid asset type"}, status=400)
         target_dir = _get_asset_dir(asset_type)
 
         reader = await request.multipart()
@@ -113,6 +125,8 @@ if _HAS_SERVER:
         filename = os.path.basename(request.query.get('filename', ''))
         if not filename:
             return web.json_response({"error": "Missing filename"}, status=400)
+        if asset_type not in _ASSET_TYPE_WHITELIST:
+            return web.json_response({"error": "Invalid asset type"}, status=400)
         target_dir = _get_asset_dir(asset_type)
         filepath = os.path.join(target_dir, filename)
         if not os.path.exists(filepath):
@@ -145,6 +159,8 @@ if _HAS_SERVER:
     async def replace_asset(request):
         asset_type = request.query.get('type', 'images')
         old_filename = request.query.get('old_filename', '')
+        if asset_type not in _ASSET_TYPE_WHITELIST:
+            return web.json_response({"error": "Invalid asset type"}, status=400)
         target_dir = _get_asset_dir(asset_type)
 
         # Delete old file
@@ -189,6 +205,8 @@ if _HAS_SERVER:
         asset_type = request.query.get('type', 'images')
         if not filename:
             return web.json_response({"error": "Missing filename"}, status=400)
+        if asset_type not in _ASSET_TYPE_WHITELIST:
+            return web.json_response({"error": "Invalid asset type"}, status=400)
 
         target_dir = _get_asset_dir(asset_type)
         filepath = os.path.join(target_dir, filename)
@@ -315,46 +333,3 @@ if _HAS_SERVER:
                 if f.lower().endswith(('.ttf', '.otf', '.ttc')):
                     fonts.append(f)
         return web.json_response({"fonts": sorted(fonts)})
-
-    @PromptServer.instance.routes.post("/bsai/scan_assets")
-    async def scan_assets(request):
-        """Legacy endpoint for directory-based scanning (backward compatibility)."""
-        try:
-            post = await request.json()
-        except Exception:
-            return web.json_response({"error": "Invalid JSON"}, status=400)
-
-        image_dir = post.get("image_directory", "")
-        video_dir = post.get("video_directory", "")
-        audio_dir = post.get("audio_directory", "")
-
-        def resolve(path):
-            if not path:
-                return None
-            p = path.strip().strip('"').strip("'")
-            if os.path.isabs(p) and os.path.isdir(p):
-                return p
-            if _HAS_FOLDER_PATHS:
-                for base_func in [folder_paths.get_input_directory, folder_paths.get_output_directory]:
-                    full = os.path.join(base_func(), p)
-                    if os.path.isdir(full):
-                        return full
-            return p if os.path.isdir(p) else None
-
-        result = {"images": [], "videos": [], "audios": []}
-        for dirpath, exts, key in [
-            (resolve(image_dir), _IMG_EXTS, "images"),
-            (resolve(video_dir), _VID_EXTS, "videos"),
-            (resolve(audio_dir), _AUD_EXTS, "audios"),
-        ]:
-            if dirpath and os.path.isdir(dirpath):
-                files = sorted(
-                    [f for f in os.listdir(dirpath) if f.lower().endswith(exts)],
-                    key=lambda s: s.lower()
-                )
-                for i, fname in enumerate(files):
-                    fpath = os.path.join(dirpath, fname)
-                    entry = {"index": i + 1, "name": fname, "thumbnail": _make_thumbnail(fpath)}
-                    result[key].append(entry)
-
-        return web.json_response(result)

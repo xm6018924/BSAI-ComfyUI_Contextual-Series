@@ -1,7 +1,7 @@
 """
 BSAI Subtitle System
 - BSAI_SubtitleConfig: Configure subtitle font/color/size/position from C:\\Windows\\Fonts
-- BSAI_SubtitleRenderer: Render narration (旁白) and dialogue (对白) subtitles on video frames
+- BSAI_SubtitleRenderer: Render narration and dialogue subtitles on video frames
 """
 
 import os
@@ -122,7 +122,7 @@ def _draw_text_block(draw, img_w, img_h, lines, font, color_rgba, position, marg
 
 class BSAI_SubtitleConfig:
     """Configure subtitle font, color, size, and position.
-    Font selection from C:\\Windows\\Fonts. Supports two subtitle types: narration (旁白) and dialogue (对白)."""
+    Font selection from C:\\Windows\\Fonts. Supports two subtitle types: narration and dialogue."""
 
     CATEGORY = "BSAI"
     RETURN_TYPES = ("SUBTITLE_CONFIG",)
@@ -161,7 +161,7 @@ class BSAI_SubtitleConfig:
 
 
 class BSAI_SubtitleRenderer:
-    """Render narration (旁白) and dialogue (对白) subtitles on video frames.
+    """Render narration and dialogue subtitles on video frames.
     Can extract subtitle text from CLIP_INFO or accept direct text input."""
 
     CATEGORY = "BSAI"

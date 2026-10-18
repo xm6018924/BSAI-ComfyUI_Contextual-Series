@@ -235,23 +235,23 @@ async function fetchAssetLibrary() {
 function parseAssetRefs(refsStr) {
     var refs = { images: [], videos: [], audios: [] };
     if (!refsStr) return refs;
-    refs.images = (refsStr.match(/@图(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@图", ""));
+    refs.images = (refsStr.match(/@img(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace("@img", ""));
     });
-    refs.videos = (refsStr.match(/@视频(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@视频", ""));
+    refs.videos = (refsStr.match(/@vid(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace("@vid", ""));
     });
-    refs.audios = (refsStr.match(/@音频(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@音频", ""));
+    refs.audios = (refsStr.match(/@aud(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace("@aud", ""));
     });
     return refs;
 }
 
 function rebuildRefsStr(selected) {
     var parts = [];
-    selected.images.forEach(function (n) { parts.push("@图" + n); });
-    selected.videos.forEach(function (n) { parts.push("@视频" + n); });
-    selected.audios.forEach(function (n) { parts.push("@音频" + n); });
+    selected.images.forEach(function (n) { parts.push("@img" + n); });
+    selected.videos.forEach(function (n) { parts.push("@vid" + n); });
+    selected.audios.forEach(function (n) { parts.push("@aud" + n); });
     return parts.join(" ");
 }
 
@@ -452,14 +452,14 @@ function addClipCard(node, cardsWrapper, clipData) {
     // Prompt
     var promptLbl = document.createElement("div");
     promptLbl.className = "bsai-clip-lbl";
-    promptLbl.innerHTML = 'Prompt <span class="bsai-clip-lbl-hint">【旁白】【对白】 + @图N</span>';
+    promptLbl.innerHTML = 'Prompt <span class="bsai-clip-lbl-hint">[NARR]/[DIALOG] + @imgN</span>';
     rightPanel.appendChild(promptLbl);
 
     var promptInput = document.createElement("textarea");
     promptInput.className = "bsai-clip-prompt";
     promptInput.rows = 2;
     promptInput.value = data.prompt || "";
-    promptInput.placeholder = "Enter generation prompt...\nUse 【旁白】/【对白】 subtitle markers\nUse @图1 @视频1 @音频1 asset refs";
+    promptInput.placeholder = "Enter generation prompt...\nUse [NARR]/[DIALOG] subtitle markers\nUse @img1 @vid1 @aud1 asset refs";
     promptInput.addEventListener("input", function () { serializeClips(node, cardsWrapper); });
     rightPanel.appendChild(promptInput);
 
@@ -634,13 +634,13 @@ async function renderAssetList(container, refsStr, onRefsChange) {
 
     var allItems = [];
     assets.images.forEach(function (a) {
-        allItems.push({ type: "image", prefix: "图", index: a.index, name: a.name, thumbnail: a.thumbnail });
+        allItems.push({ type: "image", prefix: "img", index: a.index, name: a.name, thumbnail: a.thumbnail });
     });
     assets.videos.forEach(function (a) {
-        allItems.push({ type: "video", prefix: "视频", index: a.index, name: a.name, thumbnail: a.thumbnail });
+        allItems.push({ type: "video", prefix: "vid", index: a.index, name: a.name, thumbnail: a.thumbnail });
     });
     assets.audios.forEach(function (a) {
-        allItems.push({ type: "audio", prefix: "音频", index: a.index, name: a.name, thumbnail: a.thumbnail });
+        allItems.push({ type: "audio", prefix: "aud", index: a.index, name: a.name, thumbnail: a.thumbnail });
     });
 
     if (allItems.length === 0) {

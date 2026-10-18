@@ -1,7 +1,7 @@
 """
 BSAI Asset Library System
 - BSAI_AssetLibraryInput: Load images, videos, and audio from directories
-- BSAI_AssetRefSelector: Select assets via @图N/@视频N/@音频N notation in prompt
+- BSAI_AssetRefSelector: Select assets via @imgN/@vidN/@audN notation in prompt
 - BSAI_ImageBatchSplitter: Split an IMAGE batch into individual images for H3 ref inputs
 """
 
@@ -139,13 +139,13 @@ def _empty_audio():
 class BSAI_AssetLibraryInput:
     """Upload images, videos, and audio files into a unified asset library.
     Files are uploaded via the node UI (batch or single), stored in input/bsai_assets/,
-    and displayed as thumbnails. Each asset is indexed: 图1, 图2, ... / 视频1, ... / 音频1, ..."""
+    and displayed as thumbnails. Each asset is indexed: @img1, @img2, ... / @vid1, ... / @aud1, ..."""
 
     CATEGORY = "BSAI"
     RETURN_TYPES = ("ASSET_LIBRARY",)
     RETURN_NAMES = ("asset_library",)
     FUNCTION = "load_assets"
-    DESCRIPTION = "Upload images/videos/audio via node UI. Assets indexed: 图1,图2,... / 视频1,... / 音频1,..."
+    DESCRIPTION = "Upload images/videos/audio via node UI. Assets indexed as @imgN/@vidN/@audN."
 
     @classmethod
     def INPUT_TYPES(cls):
@@ -162,7 +162,24 @@ class BSAI_AssetLibraryInput:
         library = {"images": [], "videos": [], "audios": []}
 
         input_dir = folder_paths.get_input_directory()
-        asset_base = os.path.join(input_dir, "bsai_assets")
+        asset_base = os.path.realpath(os.path.join(input_dir, "bsai_assets"))
+
+        def _safe_path(subdir, fname):
+            """Resolve fname under asset_base/subdir, rejecting absolute paths
+            and any '..' traversal that would escape the asset subdirectory."""
+            if not fname or not isinstance(fname, str):
+                return None
+            if os.path.isabs(fname):
+                return None
+            sub_real = os.path.realpath(os.path.join(asset_base, subdir))
+            candidate = os.path.realpath(os.path.join(sub_real, fname))
+            try:
+                if os.path.commonpath([sub_real, candidate]) != sub_real:
+                    return None
+            except ValueError:
+                # Different drives on Windows -> not under subdir.
+                return None
+            return candidate
 
         try:
             img_list = json.loads(image_files) if image_files else []
@@ -179,21 +196,21 @@ class BSAI_AssetLibraryInput:
 
         img_dir = os.path.join(asset_base, "images")
         for fname in img_list:
-            fpath = os.path.join(img_dir, fname)
-            if os.path.exists(fpath):
+            fpath = _safe_path("images", fname)
+            if fpath and os.path.exists(fpath):
                 library["images"].append({
                     "path": fpath,
-                    "name": fname,
+                    "name": os.path.basename(fpath),
                     "index": len(library["images"]) + 1,
                 })
 
         vid_dir = os.path.join(asset_base, "videos")
         for fname in vid_list:
-            fpath = os.path.join(vid_dir, fname)
-            if os.path.exists(fpath):
+            fpath = _safe_path("videos", fname)
+            if fpath and os.path.exists(fpath):
                 entry = {
                     "path": fpath,
-                    "name": fname,
+                    "name": os.path.basename(fpath),
                     "index": len(library["videos"]) + 1,
                 }
                 if cv2 is not None:
@@ -208,11 +225,11 @@ class BSAI_AssetLibraryInput:
 
         aud_dir = os.path.join(asset_base, "audios")
         for fname in aud_list:
-            fpath = os.path.join(aud_dir, fname)
-            if os.path.exists(fpath):
+            fpath = _safe_path("audios", fname)
+            if fpath and os.path.exists(fpath):
                 library["audios"].append({
                     "path": fpath,
-                    "name": fname,
+                    "name": os.path.basename(fpath),
                     "index": len(library["audios"]) + 1,
                 })
 
@@ -226,7 +243,7 @@ class BSAI_AssetLibraryInput:
 
 
 class BSAI_AssetRefSelector:
-    """Select assets from the library using @图N / @视频N / @音频N notation in the prompt.
+    """Select assets from the library using @imgN / @vidN / @audN notation in the prompt.
     Outputs individual images/videos/audios for MiniMaxH3ReferenceToVideo, plus a formatted prompt with H3 <Picture>/<Video>/<Audio> tags."""
 
     CATEGORY = "BSAI"
@@ -245,14 +262,14 @@ class BSAI_AssetRefSelector:
         "formatted_prompt",
     )
     FUNCTION = "select_assets"
-    DESCRIPTION = "Parse @图N/@视频N/@音频N in prompt, load referenced assets, output for MiniMaxH3ReferenceToVideo."
+    DESCRIPTION = "Parse @imgN/@vidN/@audN in prompt, load referenced assets, output for MiniMaxH3ReferenceToVideo."
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
                 "asset_library": ("ASSET_LIBRARY",),
-                "prompt": ("STRING", {"default": "", "multiline": True, "tooltip": "Use @图1 @图3 for images, @视频1 for videos, @音频1 for audio"}),
+                "prompt": ("STRING", {"default": "", "multiline": True, "tooltip": "Use @img1 @img3 for images, @vid1 for videos, @aud1 for audio"}),
             }
         }
 
@@ -261,9 +278,9 @@ class BSAI_AssetRefSelector:
         videos = asset_library.get("videos", [])
         audios = asset_library.get("audios", [])
 
-        img_refs = [int(x) for x in re.findall(r'@图(\d+)', prompt)]
-        vid_refs = [int(x) for x in re.findall(r'@视频(\d+)', prompt)]
-        aud_refs = [int(x) for x in re.findall(r'@音频(\d+)', prompt)]
+        img_refs = [int(x) for x in re.findall(r'@img(\d+)', prompt)]
+        vid_refs = [int(x) for x in re.findall(r'@vid(\d+)', prompt)]
+        aud_refs = [int(x) for x in re.findall(r'@aud(\d+)', prompt)]
 
         img_refs = img_refs[:MAX_REF_IMAGES]
         vid_refs = vid_refs[:MAX_REF_VIDEOS]
@@ -277,9 +294,9 @@ class BSAI_AssetRefSelector:
             if found:
                 tensor = _load_image_tensor(found["path"])
                 selected_images.append(tensor)
-                formatted = formatted.replace(f'@图{ref_idx}', f'<Picture {i + 1}>')
+                formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>')
             else:
-                print(f"[BSAI AssetRefSelector] Warning: @图{ref_idx} not found in library (have {len(images)} images)")
+                print(f"[BSAI AssetRefSelector] Warning: @img{ref_idx} not found in library (have {len(images)} images)")
 
         if selected_images:
             ref_images_batch = torch.stack(selected_images)
@@ -293,18 +310,18 @@ class BSAI_AssetRefSelector:
             if found:
                 ref_videos[i] = _load_video_frames(found["path"])
                 ref_video_audios[i] = _load_audio_from_file(found["path"])
-                formatted = formatted.replace(f'@视频{ref_idx}', f'<Video {i + 1}>')
+                formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>')
             else:
-                print(f"[BSAI AssetRefSelector] Warning: @视频{ref_idx} not found in library (have {len(videos)} videos)")
+                print(f"[BSAI AssetRefSelector] Warning: @vid{ref_idx} not found in library (have {len(videos)} videos)")
 
         ref_audios = [_empty_audio()] * 3
         for i, ref_idx in enumerate(aud_refs):
             found = next((a for a in audios if a["index"] == ref_idx), None)
             if found:
                 ref_audios[i] = _load_audio_from_file(found["path"])
-                formatted = formatted.replace(f'@音频{ref_idx}', f'<Audio {i + 1}>')
+                formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>')
             else:
-                print(f"[BSAI AssetRefSelector] Warning: @音频{ref_idx} not found in library (have {len(audios)} audios)")
+                print(f"[BSAI AssetRefSelector] Warning: @aud{ref_idx} not found in library (have {len(audios)} audios)")
 
         print(f"[BSAI AssetRefSelector] Selected {len(selected_images)} images, {len(vid_refs)} videos, {len(aud_refs)} audios")
         return (

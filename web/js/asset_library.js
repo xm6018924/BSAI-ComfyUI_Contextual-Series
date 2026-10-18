@@ -1,11 +1,11 @@
 ﻿/**
  * BSAI Asset Library - Upload-Based Frontend Extension
  *
- * Three panels: Images (图片), Videos (视频), Audio (音频)
+ * Three panels: Images, Videos, Audio
  * - Batch upload via Windows file picker (multi-select)
  * - Single file delete (X button per thumbnail)
  * - Remove All button per panel
- * - Number labels BELOW each thumbnail (图1, 视频1, 音频1...)
+ * - Number labels BELOW each thumbnail (@img1, @vid1, @aud1...)
  */
 
 import { app } from "../../../scripts/app.js";
@@ -137,9 +137,9 @@ if (!document.getElementById(STYLE_ID)) {
 }
 
 var SECTIONS = [
-    { id: "images", title: "Images", prefix: "图", accept: "image/*", widget: "image_files" },
-    { id: "videos", title: "Videos", prefix: "视频", accept: "video/*", widget: "video_files" },
-    { id: "audios", title: "Audio", prefix: "音频", accept: "audio/*", widget: "audio_files" },
+    { id: "images", title: "Images", prefix: "img", accept: "image/*", widget: "image_files" },
+    { id: "videos", title: "Videos", prefix: "vid", accept: "video/*", widget: "video_files" },
+    { id: "audios", title: "Audio", prefix: "aud", accept: "audio/*", widget: "audio_files" },
 ];
 
 app.registerExtension({
@@ -613,7 +613,7 @@ function addThumbnail(sec, node, sectionEl, filename, thumbnail, displayName) {
     num.textContent = "@" + sec.prefix + "?";
     wrap.appendChild(num);
 
-    // Click thumbnail to insert @图N into H3 Extender's active prompt
+    // Click thumbnail to insert @imgN into H3 Extender's active prompt
     wrap.addEventListener("mousedown", function (e) {
         // Skip if clicking delete button
         if (e.target.closest(".bsai-thumb-del")) return;

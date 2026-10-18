@@ -3,7 +3,7 @@ BSAI Clip Management System
 - BSAI_ClipComposer: Define a single clip with prompt, subtitles, audio settings, asset refs
 - BSAI_ClipSequencer: Self-contained storyboard with vertical CLIP cards, asset library @ notation
 
-@ notation: @图N for images, @视频N for videos, @音频N for audio
+@ notation: @imgN for images, @vidN for videos, @audN for audio
 Resolves against BSAI_AssetLibraryInput output (ASSET_LIBRARY type).
 """
 
@@ -36,17 +36,17 @@ def _extract_subtitles_from_prompt(prompt):
         line = line.strip()
         if not line:
             continue
-        if re.match(r'^(?:【旁白】|旁白[：:]|\(旁白[:：])', line):
-            text = re.sub(r'^(?:【旁白】|旁白[：:]|\(旁白[:：]\s*)', '', line).rstrip(')')
+        if re.match(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：])', line):
+            text = re.sub(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：]\s*)', '', line).rstrip(')')
             narration_lines.append(text.strip())
-        elif re.match(r'^(?:【对白】|对白[：:]|\(对白[:：])', line):
-            text = re.sub(r'^(?:【对白】|对白[：:]|\(对白[:：]\s*)', '', line).rstrip(')')
+        elif re.match(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：])', line):
+            text = re.sub(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：]\s*)', '', line).rstrip(')')
             dialogue_lines.append(text.strip())
     return '\n'.join(narration_lines), '\n'.join(dialogue_lines)
 
 
 def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
-    """Resolve @图N/@视频N/@音频N notation against the asset library.
+    """Resolve @imgN/@vidN/@audN notation against the asset library.
     Returns (formatted_prompt, ref_image_paths, ref_video_paths, ref_audio_paths)."""
     if not asset_library:
         return prompt, [], [], []
@@ -57,9 +57,9 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
 
     combined = (prompt + " " + (asset_refs_str or "")).strip()
 
-    img_refs = [int(x) for x in re.findall(r'@图(\d+)', combined)]
-    vid_refs = [int(x) for x in re.findall(r'@视频(\d+)', combined)]
-    aud_refs = [int(x) for x in re.findall(r'@音频(\d+)', combined)]
+    img_refs = [int(x) for x in re.findall(r'@img(\d+)', combined)]
+    vid_refs = [int(x) for x in re.findall(r'@vid(\d+)', combined)]
+    aud_refs = [int(x) for x in re.findall(r'@aud(\d+)', combined)]
 
     img_refs = img_refs[:MAX_REF_IMAGES]
     vid_refs = vid_refs[:MAX_REF_VIDEOS]
@@ -72,34 +72,34 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
         found = next((a for a in images if a["index"] == ref_idx), None)
         if found:
             ref_image_paths.append(found["path"])
-            formatted = formatted.replace(f'@图{ref_idx}', f'<Picture {i + 1}>')
+            formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>')
         else:
-            print(f"[BSAI] Warning: @图{ref_idx} not found in library ({len(images)} images available)")
+            print(f"[BSAI] Warning: @img{ref_idx} not found in library ({len(images)} images available)")
 
     ref_video_paths = []
     for i, ref_idx in enumerate(vid_refs):
         found = next((a for a in videos if a["index"] == ref_idx), None)
         if found:
             ref_video_paths.append(found["path"])
-            formatted = formatted.replace(f'@视频{ref_idx}', f'<Video {i + 1}>')
+            formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>')
         else:
-            print(f"[BSAI] Warning: @视频{ref_idx} not found in library ({len(videos)} videos available)")
+            print(f"[BSAI] Warning: @vid{ref_idx} not found in library ({len(videos)} videos available)")
 
     ref_audio_paths = []
     for i, ref_idx in enumerate(aud_refs):
         found = next((a for a in audios if a["index"] == ref_idx), None)
         if found:
             ref_audio_paths.append(found["path"])
-            formatted = formatted.replace(f'@音频{ref_idx}', f'<Audio {i + 1}>')
+            formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>')
         else:
-            print(f"[BSAI] Warning: @音频{ref_idx} not found in library ({len(audios)} audios available)")
+            print(f"[BSAI] Warning: @aud{ref_idx} not found in library ({len(audios)} audios available)")
 
     return formatted, ref_image_paths, ref_video_paths, ref_audio_paths
 
 
 class BSAI_ClipComposer:
     """Compose a single clip with generation prompt, subtitle text, audio settings, and asset references.
-    Supports @图N/@视频N/@音频N notation for referencing assets from BSAI_AssetLibraryInput.
+    Supports @imgN/@vidN/@audN notation for referencing assets from BSAI_AssetLibraryInput.
     Connect asset_library input to enable @ notation resolution.
     Clips are arranged top-to-bottom in the workflow like a storyboard script."""
 
@@ -107,17 +107,17 @@ class BSAI_ClipComposer:
     RETURN_TYPES = ("CLIP_INFO",)
     RETURN_NAMES = ("clip_info",)
     FUNCTION = "compose_clip"
-    DESCRIPTION = "Define a clip: prompt, subtitle (narration/dialogue), audio mode, duration, asset refs (@图N/@视频N/@音频N)."
+    DESCRIPTION = "Define a clip: prompt, subtitle (narration/dialogue), audio mode, duration, asset refs (@imgN/@vidN/@audN)."
 
     @classmethod
     def INPUT_TYPES(cls):
         return {
             "required": {
-                "prompt": ("STRING", {"default": "", "multiline": True, "tooltip": "Generation prompt. Use 【旁白】/【对白】 for subtitles, @图N/@视频N/@音频N for assets."}),
-                "asset_refs": ("STRING", {"default": "", "multiline": False, "tooltip": "Asset references: @图1 @图2 @视频1 @音频1"}),
+                "prompt": ("STRING", {"default": "", "multiline": True, "tooltip": "Generation prompt. Use [NARR]/[DIALOG] for subtitles, @imgN/@vidN/@audN for assets."}),
+                "asset_refs": ("STRING", {"default": "", "multiline": False, "tooltip": "Asset references: @img1 @img2 @vid1 @aud1"}),
                 "narration": ("STRING", {"default": "", "multiline": True, "tooltip": "Narration subtitle text. Used when subtitle_source='manual'."}),
                 "dialogue": ("STRING", {"default": "", "multiline": True, "tooltip": "Dialogue subtitle text. Used when subtitle_source='manual'."}),
-                "subtitle_source": (["manual", "extract_from_prompt"], {"default": "manual", "tooltip": "manual: use narration/dialogue fields. extract_from_prompt: parse 【旁白】/【对白】 from prompt."}),
+                "subtitle_source": (["manual", "extract_from_prompt"], {"default": "manual", "tooltip": "manual: use narration/dialogue fields. extract_from_prompt: parse [NARR]/[DIALOG] from prompt."}),
                 "audio_mode": (["H3_auto", "custom"], {"default": "H3_auto", "tooltip": "H3_auto: use H3 generated audio. custom: use user-provided audio."}),
                 "duration": ("FLOAT", {"default": 5.0, "min": 0.25, "max": 150.0, "step": 0.25, "tooltip": "Clip duration in seconds. Snapped to H3 17n+5 frame grid."}),
                 "width": ("INT", {"default": 1344, "min": 256, "max": 2048, "step": 32, "tooltip": "Video width (multiple of 32)"}),
@@ -172,7 +172,7 @@ class BSAI_ClipSequencer:
     """Self-contained storyboard sequencer with vertical CLIP cards.
 
     Define clips directly in the node UI (top-to-bottom arrangement).
-    Use @图N/@视频N/@音频N in each clip's asset_refs to reference assets from BSAI_AssetLibraryInput.
+    Use @imgN/@vidN/@audN in each clip's asset_refs to reference assets from BSAI_AssetLibraryInput.
     Connect asset_library input to enable @ notation resolution.
 
     Also accepts external CLIP_INFO inputs (clip_1..clip_4) for backward compatibility
@@ -182,7 +182,7 @@ class BSAI_ClipSequencer:
     RETURN_TYPES = ("CLIP_SEQUENCE",)
     RETURN_NAMES = ("clip_sequence",)
     FUNCTION = "sequence_clips"
-    DESCRIPTION = "Storyboard sequencer: vertical CLIP cards, asset-library refs (@图N), manual add/remove clips."
+    DESCRIPTION = "Storyboard sequencer: vertical CLIP cards, asset-library refs (@imgN), manual add/remove clips."
 
     MAX_EXT_CLIPS = 4
 
