@@ -201,7 +201,7 @@ if _HAS_SERVER:
 
     @PromptServer.instance.routes.get("/bsai/asset_thumbnail")
     async def get_asset_thumbnail(request):
-        filename = request.query.get('filename', '')
+        filename = os.path.basename(request.query.get('filename', ''))
         asset_type = request.query.get('type', 'images')
         if not filename:
             return web.json_response({"error": "Missing filename"}, status=400)
