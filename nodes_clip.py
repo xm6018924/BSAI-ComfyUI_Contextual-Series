@@ -36,11 +36,12 @@ def _extract_subtitles_from_prompt(prompt):
         line = line.strip()
         if not line:
             continue
-        if re.match(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：])', line):
-            text = re.sub(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：]\s*)', '', line).rstrip(')')
+        # 兼容旧版中文标记【旁白】/【对白】（老工作流 JSON 保存值）：与新标记 [NARR]/[DIALOG] 等价处理
+        if re.match(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：]|【旁白】|旁白[：:]|\(旁白[:：])', line):
+            text = re.sub(r'^(?:\[NARR\]|NARR[：:]|\(NARR[:：]\s*|【旁白】|旁白[：:]|\(旁白[:：]\s*)', '', line).rstrip(')')
             narration_lines.append(text.strip())
-        elif re.match(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：])', line):
-            text = re.sub(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：]\s*)', '', line).rstrip(')')
+        elif re.match(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：]|【对白】|对白[：:]|\(对白[:：])', line):
+            text = re.sub(r'^(?:\[DIALOG\]|DIALOG[：:]|\(DIALOG[:：]\s*|【对白】|对白[：:]|\(对白[:：]\s*)', '', line).rstrip(')')
             dialogue_lines.append(text.strip())
     return '\n'.join(narration_lines), '\n'.join(dialogue_lines)
 
@@ -57,9 +58,10 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
 
     combined = (prompt + " " + (asset_refs_str or "")).strip()
 
-    img_refs = [int(x) for x in re.findall(r'@img(\d+)', combined)]
-    vid_refs = [int(x) for x in re.findall(r'@vid(\d+)', combined)]
-    aud_refs = [int(x) for x in re.findall(r'@aud(\d+)', combined)]
+    # 兼容旧版中文记号 @图N/@视频N/@音频N（老工作流 JSON 保存值）：与新记号 @imgN/@vidN/@audN 等价解析
+    img_refs = [int(x) for x in re.findall(r'@(?:img|图)(\d+)', combined)]
+    vid_refs = [int(x) for x in re.findall(r'@(?:vid|视频)(\d+)', combined)]
+    aud_refs = [int(x) for x in re.findall(r'@(?:aud|音频)(\d+)', combined)]
 
     img_refs = img_refs[:MAX_REF_IMAGES]
     vid_refs = vid_refs[:MAX_REF_VIDEOS]
@@ -72,7 +74,7 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
         found = next((a for a in images if a["index"] == ref_idx), None)
         if found:
             ref_image_paths.append(found["path"])
-            formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>')
+            formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>').replace(f'@图{ref_idx}', f'<Picture {i + 1}>')
         else:
             print(f"[BSAI] Warning: @img{ref_idx} not found in library ({len(images)} images available)")
 
@@ -81,7 +83,7 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
         found = next((a for a in videos if a["index"] == ref_idx), None)
         if found:
             ref_video_paths.append(found["path"])
-            formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>')
+            formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>').replace(f'@视频{ref_idx}', f'<Video {i + 1}>')
         else:
             print(f"[BSAI] Warning: @vid{ref_idx} not found in library ({len(videos)} videos available)")
 
@@ -90,7 +92,7 @@ def _resolve_asset_refs(asset_library, prompt, asset_refs_str):
         found = next((a for a in audios if a["index"] == ref_idx), None)
         if found:
             ref_audio_paths.append(found["path"])
-            formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>')
+            formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>').replace(f'@音频{ref_idx}', f'<Audio {i + 1}>')
         else:
             print(f"[BSAI] Warning: @aud{ref_idx} not found in library ({len(audios)} audios available)")
 

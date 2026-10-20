@@ -278,9 +278,10 @@ class BSAI_AssetRefSelector:
         videos = asset_library.get("videos", [])
         audios = asset_library.get("audios", [])
 
-        img_refs = [int(x) for x in re.findall(r'@img(\d+)', prompt)]
-        vid_refs = [int(x) for x in re.findall(r'@vid(\d+)', prompt)]
-        aud_refs = [int(x) for x in re.findall(r'@aud(\d+)', prompt)]
+        # 兼容旧版中文记号 @图N/@视频N/@音频N（老工作流 JSON 保存值）：与新记号 @imgN/@vidN/@audN 等价解析
+        img_refs = [int(x) for x in re.findall(r'@(?:img|图)(\d+)', prompt)]
+        vid_refs = [int(x) for x in re.findall(r'@(?:vid|视频)(\d+)', prompt)]
+        aud_refs = [int(x) for x in re.findall(r'@(?:aud|音频)(\d+)', prompt)]
 
         img_refs = img_refs[:MAX_REF_IMAGES]
         vid_refs = vid_refs[:MAX_REF_VIDEOS]
@@ -294,7 +295,7 @@ class BSAI_AssetRefSelector:
             if found:
                 tensor = _load_image_tensor(found["path"])
                 selected_images.append(tensor)
-                formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>')
+                formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>').replace(f'@图{ref_idx}', f'<Picture {i + 1}>')
             else:
                 print(f"[BSAI AssetRefSelector] Warning: @img{ref_idx} not found in library (have {len(images)} images)")
 
@@ -310,7 +311,7 @@ class BSAI_AssetRefSelector:
             if found:
                 ref_videos[i] = _load_video_frames(found["path"])
                 ref_video_audios[i] = _load_audio_from_file(found["path"])
-                formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>')
+                formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>').replace(f'@视频{ref_idx}', f'<Video {i + 1}>')
             else:
                 print(f"[BSAI AssetRefSelector] Warning: @vid{ref_idx} not found in library (have {len(videos)} videos)")
 
@@ -319,7 +320,7 @@ class BSAI_AssetRefSelector:
             found = next((a for a in audios if a["index"] == ref_idx), None)
             if found:
                 ref_audios[i] = _load_audio_from_file(found["path"])
-                formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>')
+                formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>').replace(f'@音频{ref_idx}', f'<Audio {i + 1}>')
             else:
                 print(f"[BSAI AssetRefSelector] Warning: @aud{ref_idx} not found in library (have {len(audios)} audios)")
 

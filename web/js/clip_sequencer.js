@@ -235,14 +235,15 @@ async function fetchAssetLibrary() {
 function parseAssetRefs(refsStr) {
     var refs = { images: [], videos: [], audios: [] };
     if (!refsStr) return refs;
-    refs.images = (refsStr.match(/@img(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@img", ""));
+    // 兼容旧版中文记号 @图N/@视频N/@音频N（老工作流保存值）：解析后由 rebuildRefsStr 统一序列化为新记号
+    refs.images = (refsStr.match(/@(?:img|图)(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace(/@(?:img|图)/, ""), 10);
     });
-    refs.videos = (refsStr.match(/@vid(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@vid", ""));
+    refs.videos = (refsStr.match(/@(?:vid|视频)(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace(/@(?:vid|视频)/, ""), 10);
     });
-    refs.audios = (refsStr.match(/@aud(\d+)/g) || []).map(function (s) {
-        return parseInt(s.replace("@aud", ""));
+    refs.audios = (refsStr.match(/@(?:aud|音频)(\d+)/g) || []).map(function (s) {
+        return parseInt(s.replace(/@(?:aud|音频)/, ""), 10);
     });
     return refs;
 }
