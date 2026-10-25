@@ -58,6 +58,27 @@ def _resolve_directory(path):
     return path if os.path.isdir(path) else None
 
 
+def _confine_asset_path(path, kind):
+    """Resolve an asset entry's path inside input/bsai_assets/<kind>/.
+
+    asset_library can also arrive as a node input through /prompt, so an entry
+    must not be allowed to name an arbitrary host file (or a URL).
+    """
+    if not path or not isinstance(path, str):
+        return None
+    sub_real = os.path.realpath(
+        os.path.join(folder_paths.get_input_directory(), "bsai_assets", kind)
+    )
+    candidate = os.path.realpath(path if os.path.isabs(path) else os.path.join(sub_real, path))
+    try:
+        if os.path.commonpath([sub_real, candidate]) != sub_real:
+            return None
+    except ValueError:
+        # Different drives on Windows -> not under the asset directory.
+        return None
+    return candidate if os.path.exists(candidate) else None
+
+
 def _load_image_tensor(path):
     img = Image.open(path).convert('RGB')
     arr = np.array(img, dtype=np.float32) / 255.0
@@ -292,8 +313,9 @@ class BSAI_AssetRefSelector:
         selected_images = []
         for i, ref_idx in enumerate(img_refs):
             found = next((a for a in images if a["index"] == ref_idx), None)
-            if found:
-                tensor = _load_image_tensor(found["path"])
+            path = _confine_asset_path(found["path"], "images") if found else None
+            if path:
+                tensor = _load_image_tensor(path)
                 selected_images.append(tensor)
                 formatted = formatted.replace(f'@img{ref_idx}', f'<Picture {i + 1}>').replace(f'@图{ref_idx}', f'<Picture {i + 1}>')
             else:
@@ -308,9 +330,10 @@ class BSAI_AssetRefSelector:
         ref_video_audios = [_empty_audio()] * 3
         for i, ref_idx in enumerate(vid_refs):
             found = next((a for a in videos if a["index"] == ref_idx), None)
-            if found:
-                ref_videos[i] = _load_video_frames(found["path"])
-                ref_video_audios[i] = _load_audio_from_file(found["path"])
+            path = _confine_asset_path(found["path"], "videos") if found else None
+            if path:
+                ref_videos[i] = _load_video_frames(path)
+                ref_video_audios[i] = _load_audio_from_file(path)
                 formatted = formatted.replace(f'@vid{ref_idx}', f'<Video {i + 1}>').replace(f'@视频{ref_idx}', f'<Video {i + 1}>')
             else:
                 print(f"[BSAI AssetRefSelector] Warning: @vid{ref_idx} not found in library (have {len(videos)} videos)")
@@ -318,8 +341,9 @@ class BSAI_AssetRefSelector:
         ref_audios = [_empty_audio()] * 3
         for i, ref_idx in enumerate(aud_refs):
             found = next((a for a in audios if a["index"] == ref_idx), None)
-            if found:
-                ref_audios[i] = _load_audio_from_file(found["path"])
+            path = _confine_asset_path(found["path"], "audios") if found else None
+            if path:
+                ref_audios[i] = _load_audio_from_file(path)
                 formatted = formatted.replace(f'@aud{ref_idx}', f'<Audio {i + 1}>').replace(f'@音频{ref_idx}', f'<Audio {i + 1}>')
             else:
                 print(f"[BSAI AssetRefSelector] Warning: @aud{ref_idx} not found in library (have {len(audios)} audios)")
