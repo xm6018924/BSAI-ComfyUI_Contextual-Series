@@ -42,6 +42,27 @@ _AUD_EXTS = ('.wav', '.mp3', '.flac', '.ogg', '.aac', '.m4a')
 # parameter is rejected to prevent read/write/delete outside bsai_assets/.
 _ASSET_TYPE_WHITELIST = ("images", "videos", "audios")
 
+# Which extensions each asset folder may hold. Uploads, replacements and the
+# raw-file route all check against this: the browser picks the content type
+# from the file extension, so an uploaded .html / .svg would be served from
+# the ComfyUI origin as a page and could run script there. Only the media
+# types this pack already handles are accepted.
+_ASSET_EXTS_BY_TYPE = {
+    "images": _IMG_EXTS,
+    "videos": _VID_EXTS,
+    "audios": _AUD_EXTS,
+}
+
+
+def _safe_asset_name(filename, asset_type):
+    """Bare file name whose extension is allowed for this asset type, else None."""
+    name = os.path.basename(str(filename or "").replace("\\", "/"))
+    if not name or name in (".", ".."):
+        return None
+    if os.path.splitext(name)[1].lower() not in _ASSET_EXTS_BY_TYPE.get(asset_type, ()):
+        return None
+    return name
+
 
 def _get_asset_dir(asset_type):
     if _HAS_FOLDER_PATHS:
@@ -94,7 +115,10 @@ if _HAS_SERVER:
         reader = await request.multipart()
         async for field in reader:
             if field.name == 'file':
-                filename = os.path.basename(field.filename or 'unnamed')
+                filename = _safe_asset_name(field.filename, asset_type)
+                if filename is None:
+                    return web.json_response(
+                        {"error": "Unsupported file type for %s asset" % asset_type}, status=400)
 
                 base, ext = os.path.splitext(filename)
                 counter = 1
@@ -122,16 +146,18 @@ if _HAS_SERVER:
     async def serve_asset_file(request):
         """Serve raw asset files directly — browser does thumbnailing via CSS, no PIL needed."""
         asset_type = request.query.get('type', 'images')
-        filename = os.path.basename(request.query.get('filename', ''))
-        if not filename:
-            return web.json_response({"error": "Missing filename"}, status=400)
         if asset_type not in _ASSET_TYPE_WHITELIST:
             return web.json_response({"error": "Invalid asset type"}, status=400)
+        filename = _safe_asset_name(request.query.get('filename', ''), asset_type)
+        if not filename:
+            return web.json_response({"error": "Missing or unsupported filename"}, status=400)
         target_dir = _get_asset_dir(asset_type)
         filepath = os.path.join(target_dir, filename)
         if not os.path.exists(filepath):
             return web.json_response({"error": "File not found"}, status=404)
-        return web.FileResponse(filepath)
+        # `nosniff` keeps the browser from second-guessing the media content type,
+        # so a file in the asset folder can never be treated as a page.
+        return web.FileResponse(filepath, headers={"X-Content-Type-Options": "nosniff"})
 
     @PromptServer.instance.routes.get("/bsai/video_frame")
     async def serve_video_frame(request):
@@ -175,7 +201,10 @@ if _HAS_SERVER:
         reader = await request.multipart()
         async for field in reader:
             if field.name == 'file':
-                filename = os.path.basename(field.filename or 'unnamed')
+                filename = _safe_asset_name(field.filename, asset_type)
+                if filename is None:
+                    return web.json_response(
+                        {"error": "Unsupported file type for %s asset" % asset_type}, status=400)
 
                 base, ext = os.path.splitext(filename)
                 counter = 1
