@@ -228,6 +228,8 @@ An advanced 5-stage auto-expanding workflow is included in `example_workflows/co
   — 调整 Duration 节点（默认：Stage 1 为 8秒，Stage 2-5 为 10秒）
 - To add more stages: duplicate a Stage 2-5 block and chain the extract output
   — 要增加更多段：复制 Stage 2-5 模块并链接提取输出
+- **No-LLM variant | 无 LLM 变体** — `example_workflows/contextual_series_auto_expand_no_llm.json` is the same 5-stage graph with the Qwen loader and the five **BSAI MiniMAX H3 Prompt** nodes bypassed, so it runs without a local LLM (bypassed nodes pass the raw story text straight through to the generation nodes). Un-bypass them with Ctrl+M to turn prompt optimization back on.
+  — 同一 5 段流程，但 Qwen 加载器与 5 个 **BSAI MiniMAX H3 Prompt** 节点被旁路，用于本机没有本地 LLM 的情况：原始故事文本直接透传给生成节点。按 Ctrl+M 取消旁路即可恢复提示词优化。
 
 ### Storyboard Demo Workflow (v2.0 All Nodes) | 分镜演示工作流（v2.0 全节点）
 
